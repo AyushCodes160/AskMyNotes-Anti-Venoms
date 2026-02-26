@@ -26,7 +26,7 @@ An AI-powered study assistant that lets students upload notes, ask questions, an
 ### Frontend
 ```bash
 npm install
-npm run dev -- --port 8081
+npm run dev -- --port 8080
 ```
 
 ### Backend

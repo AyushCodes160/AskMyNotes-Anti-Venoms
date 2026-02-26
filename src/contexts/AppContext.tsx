@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, { createContext, useContext, useState, useCallback, useEffect } from "react";
 
 export interface UploadedFile {
   id: string;
@@ -97,14 +97,52 @@ const mockStudyMaterial: StudyMaterial = {
   citations: mockCitations,
 };
 
+const STORAGE_KEY = "askmynotes_subjects";
+
 export function AppProvider({ children }: { children: React.ReactNode }) {
-  const [state, setState] = useState<AppState>({
-    subjects: defaultSubjects,
-    activeSubjectId: null,
-    activeView: "chat",
-    isLoading: false,
-    studyMaterial: null,
+  const [state, setState] = useState<AppState>(() => {
+    // Try to load from localStorage
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        // We need to convert string dates back to Date objects
+        const subjectsWithDates = parsed.map((subject: any) => ({
+          ...subject,
+          files: subject.files.map((f: any) => ({ ...f, uploadedAt: new Date(f.uploadedAt) })),
+          messages: subject.messages.map((m: any) => ({ ...m, timestamp: new Date(m.timestamp) }))
+        }));
+
+        return {
+          subjects: subjectsWithDates,
+          activeSubjectId: subjectsWithDates.length > 0 ? subjectsWithDates[0].id : null,
+          activeView: "chat",
+          isLoading: false,
+          studyMaterial: null,
+        };
+      }
+    } catch (e) {
+      console.error("Failed to load state from localStorage:", e);
+    }
+
+    // Fallback to default state
+    return {
+      subjects: defaultSubjects,
+      activeSubjectId: null,
+      activeView: "chat",
+      isLoading: false,
+      studyMaterial: null,
+    };
   });
+
+  // Save to localStorage whenever subjects change
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.subjects));
+    } catch (e) {
+      console.error("Failed to save state to localStorage:", e);
+    }
+  }, [state.subjects]);
 
   const setActiveSubject = useCallback((id: string) => {
     setState((s) => ({ ...s, activeSubjectId: id, studyMaterial: null }));

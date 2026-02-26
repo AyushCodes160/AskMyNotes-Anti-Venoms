@@ -35,7 +35,7 @@ class LLMManager:
             print(f"[LLM Error] {e}")
             return ""
 
-    def generate_response(self, query: str, context_chunks: List[Dict], subject_name: str) -> Dict:
+    def generate_response(self, query: str, context_chunks: List[Dict], subject_name: str, conversation_history: List[Dict] = None) -> Dict:
         if not context_chunks:
             return {
                 "content": f"Not found in your notes for {subject_name}",
@@ -49,15 +49,27 @@ class LLMManager:
             for c in context_chunks
         ])
 
+        # Build conversation history section
+        history_text = ""
+        if conversation_history and len(conversation_history) > 0:
+            history_lines = []
+            for msg in conversation_history[-6:]:  # Last 6 messages
+                role = "Student" if msg.get("role") == "user" else "Assistant"
+                history_lines.append(f"{role}: {msg.get('content', '')}")
+            history_text = f"""\n\nPREVIOUS CONVERSATION (use this for follow-up context):
+{chr(10).join(history_lines)}"""
+
         prompt = f"""You are a study assistant for the subject "{subject_name}".
 Answer the student's question using ONLY the context below. Do NOT use any outside knowledge.
 
 If the answer is NOT found in the context, respond with exactly: "Not found in your notes for {subject_name}"
 
-CONTEXT FROM NOTES:
-{context_text}
+If the student asks a follow-up question (like "simplify it", "give an example", "explain more", "compare it"), use the conversation history to understand what they are referring to, but still answer ONLY from the context.
 
-QUESTION: {query}
+CONTEXT FROM NOTES:
+{context_text}{history_text}
+
+CURRENT QUESTION: {query}
 
 Respond in this exact JSON format:
 {{

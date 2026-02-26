@@ -68,13 +68,21 @@ async def upload_files(
 async def chat(
     subject_id: str = Form(...),
     subject_name: str = Form("this subject"),
-    message: str = Form(...)
+    message: str = Form(...),
+    conversation_history: str = Form("[]")
 ):
+    import json as _json
+    # Parse conversation history
+    try:
+        history = _json.loads(conversation_history)
+    except:
+        history = []
+    
     # 1. Semantic Search
     context_chunks = vector_store.search(subject_id, message)
     
-    # 2. Generate grounded response
-    response = llm.generate_response(message, context_chunks, subject_name)
+    # 2. Generate grounded response with conversation context
+    response = llm.generate_response(message, context_chunks, subject_name, history)
     return response
 
 @app.post("/study")

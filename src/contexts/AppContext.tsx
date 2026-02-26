@@ -57,13 +57,13 @@ interface AppContextType extends AppState {
   sendMessage: (subjectId: string, content: string) => void;
   generateStudyMaterial: (subjectId: string, topic: string) => void;
   updateSubjectName: (subjectId: string, name: string) => void;
+  addSubject: (name: string) => void;
+  removeSubject: (id: string) => void;
 }
 
-const defaultSubjects: Subject[] = [
-  { id: "1", name: "DSA", icon: "🧮", files: [], messages: [] },
-  { id: "2", name: "DBMS", icon: "🗄️", files: [], messages: [] },
-  { id: "3", name: "OS", icon: "⚙️", files: [], messages: [] },
-];
+const subjectIcons = ["📘", "📗", "📕", "📙", "📓", "📔", "🧮", "🗄️", "⚙️", "🔬", "📐", "🌐", "💻", "🧪", "📊"];
+
+const defaultSubjects: Subject[] = [];
 
 const AppContext = createContext<AppContextType | null>(null);
 
@@ -100,7 +100,7 @@ const mockStudyMaterial: StudyMaterial = {
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<AppState>({
     subjects: defaultSubjects,
-    activeSubjectId: "1",
+    activeSubjectId: null,
     activeView: "chat",
     isLoading: false,
     studyMaterial: null,
@@ -201,6 +201,28 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }));
   }, []);
 
+  const addSubject = useCallback((name: string) => {
+    const id = Date.now().toString();
+    const icon = subjectIcons[Math.floor(Math.random() * subjectIcons.length)];
+    const newSubject: Subject = { id, name, icon, files: [], messages: [] };
+    setState((s) => ({
+      ...s,
+      subjects: [...s.subjects, newSubject],
+      activeSubjectId: id,
+    }));
+  }, []);
+
+  const removeSubject = useCallback((id: string) => {
+    setState((s) => {
+      const remaining = s.subjects.filter((sub) => sub.id !== id);
+      return {
+        ...s,
+        subjects: remaining,
+        activeSubjectId: s.activeSubjectId === id ? (remaining[0]?.id || null) : s.activeSubjectId,
+      };
+    });
+  }, []);
+
   return (
     <AppContext.Provider
       value={{
@@ -212,6 +234,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         sendMessage,
         generateStudyMaterial,
         updateSubjectName,
+        addSubject,
+        removeSubject,
       }}
     >
       {children}

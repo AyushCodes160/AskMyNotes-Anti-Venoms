@@ -21,7 +21,7 @@ export function FileManager() {
             type: ext as "pdf" | "txt",
             size: file.size,
             uploadedAt: new Date(),
-          });
+          }, file);
         }
       });
     },
@@ -40,7 +40,7 @@ export function FileManager() {
             type: ext as "pdf" | "txt",
             size: file.size,
             uploadedAt: new Date(),
-          });
+          }, file);
         }
       });
     },

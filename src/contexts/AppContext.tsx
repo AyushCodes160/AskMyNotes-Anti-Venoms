@@ -52,7 +52,7 @@ interface AppState {
 interface AppContextType extends AppState {
   setActiveSubject: (id: string) => void;
   setActiveView: (view: "chat" | "files" | "study") => void;
-  addFile: (subjectId: string, file: UploadedFile) => void;
+  addFile: (subjectId: string, file: UploadedFile, rawFile?: File) => void;
   removeFile: (subjectId: string, fileId: string) => void;
   sendMessage: (subjectId: string, content: string) => void;
   generateStudyMaterial: (subjectId: string, topic: string) => void;
@@ -114,13 +114,32 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setState((s) => ({ ...s, activeView: view, studyMaterial: null }));
   }, []);
 
-  const addFile = useCallback((subjectId: string, file: UploadedFile) => {
+  const addFile = useCallback((subjectId: string, file: UploadedFile, rawFile?: File) => {
+    // Optimistic update
     setState((s) => ({
       ...s,
       subjects: s.subjects.map((sub) =>
         sub.id === subjectId ? { ...sub, files: [...sub.files, file] } : sub
       ),
     }));
+
+    if (rawFile) {
+      const formData = new FormData();
+      formData.append("subject_id", subjectId);
+      formData.append("files", rawFile);
+
+      fetch("http://localhost:8000/upload", {
+        method: "POST",
+        body: formData,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("File uploaded successfully:", data);
+        })
+        .catch((err) => {
+          console.error("Upload Error:", err);
+        });
+    }
   }, []);
 
   const removeFile = useCallback((subjectId: string, fileId: string) => {
@@ -148,48 +167,75 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       ),
     }));
 
-    // Simulate AI response
-    setTimeout(() => {
-      const subject = state.subjects.find((s) => s.id === subjectId);
-      const hasFiles = subject && subject.files.length > 0;
+    // Real API call to FastAPI
+    const formData = new FormData();
+    formData.append("subject_id", subjectId);
+    formData.append("message", content);
 
-      const aiMsg: ChatMessage = hasFiles
-        ? {
-            id: (Date.now() + 1).toString(),
-            role: "assistant",
-            content: mockResponses.default.content,
-            confidence: mockResponses.default.confidence,
-            citations: mockCitations,
-            timestamp: new Date(),
-          }
-        : {
-            id: (Date.now() + 1).toString(),
-            role: "assistant",
-            content: `Not found in your notes for ${subject?.name || "this subject"}. Please upload your notes first to get answers grounded in your study material.`,
-            notFound: true,
-            confidence: "Low",
-            timestamp: new Date(),
-          };
+    fetch("http://localhost:8000/chat", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const aiMsg: ChatMessage = {
+          id: Date.now().toString(),
+          role: "assistant",
+          content: data.content,
+          confidence: data.confidence,
+          citations: data.citations,
+          timestamp: new Date(),
+        };
 
-      setState((s) => ({
-        ...s,
-        isLoading: false,
-        subjects: s.subjects.map((sub) =>
-          sub.id === subjectId ? { ...sub, messages: [...sub.messages, aiMsg] } : sub
-        ),
-      }));
-    }, 1500);
+        setState((s) => ({
+          ...s,
+          isLoading: false,
+          subjects: s.subjects.map((sub) =>
+            sub.id === subjectId ? { ...sub, messages: [...sub.messages, aiMsg] } : sub
+          ),
+        }));
+      })
+      .catch((err) => {
+        console.error("API Error:", err);
+        const errorMsg: ChatMessage = {
+          id: Date.now().toString(),
+          role: "assistant",
+          content: `Error connecting to backend. Please ensure the FastAPI server is running.`,
+          notFound: true,
+          confidence: "Low",
+          timestamp: new Date(),
+        };
+        setState((s) => ({
+          ...s, isLoading: false, subjects: s.subjects.map((sub) =>
+            sub.id === subjectId ? { ...sub, messages: [...sub.messages, errorMsg] } : sub
+          )
+        }));
+      });
   }, [state.subjects]);
 
   const generateStudyMaterial = useCallback((subjectId: string, topic: string) => {
     setState((s) => ({ ...s, isLoading: true }));
-    setTimeout(() => {
-      setState((s) => ({
-        ...s,
-        isLoading: false,
-        studyMaterial: { ...mockStudyMaterial, topic },
-      }));
-    }, 2000);
+
+    const formData = new FormData();
+    formData.append("subject_id", subjectId);
+    formData.append("topic", topic);
+
+    fetch("http://localhost:8000/study", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setState((s) => ({
+          ...s,
+          isLoading: false,
+          studyMaterial: data,
+        }));
+      })
+      .catch((err) => {
+        console.error("API Error:", err);
+        setState((s) => ({ ...s, isLoading: false }));
+      });
   }, []);
 
   const updateSubjectName = useCallback((subjectId: string, name: string) => {
@@ -202,14 +248,17 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const addSubject = useCallback((name: string) => {
-    const id = Date.now().toString();
-    const icon = subjectIcons[Math.floor(Math.random() * subjectIcons.length)];
-    const newSubject: Subject = { id, name, icon, files: [], messages: [] };
-    setState((s) => ({
-      ...s,
-      subjects: [...s.subjects, newSubject],
-      activeSubjectId: id,
-    }));
+    setState((s) => {
+      if (s.subjects.length >= 3) return s;
+      const id = Date.now().toString();
+      const icon = subjectIcons[Math.floor(Math.random() * subjectIcons.length)];
+      const newSubject: Subject = { id, name, icon, files: [], messages: [] };
+      return {
+        ...s,
+        subjects: [...s.subjects, newSubject],
+        activeSubjectId: id,
+      };
+    });
   }, []);
 
   const removeSubject = useCallback((id: string) => {

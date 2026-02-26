@@ -41,11 +41,12 @@ export function SubjectSidebar() {
       <div className="p-3 flex-1 overflow-y-auto">
         <div className="flex items-center justify-between mb-2 px-2">
           <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
-            Subjects
+            Subjects ({subjects.length}/3)
           </p>
           <button
-            onClick={() => setShowInput(true)}
-            className="text-muted-foreground hover:text-primary transition-colors"
+            onClick={() => subjects.length < 3 && setShowInput(true)}
+            disabled={subjects.length >= 3}
+            className={`text-muted-foreground transition-colors ${subjects.length >= 3 ? "opacity-30 cursor-not-allowed" : "hover:text-primary"}`}
           >
             <Plus className="w-3.5 h-3.5" />
           </button>
@@ -91,11 +92,10 @@ export function SubjectSidebar() {
               >
                 <button
                   onClick={() => setActiveSubject(subject.id)}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-all ${
-                    activeSubjectId === subject.id
+                  className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-all ${activeSubjectId === subject.id
                       ? "bg-sidebar-accent text-sidebar-primary font-medium"
                       : "text-sidebar-foreground hover:bg-sidebar-accent/50"
-                  }`}
+                    }`}
                 >
                   <span className="text-base">{subject.icon}</span>
                   <span className="truncate">{subject.name}</span>
@@ -137,11 +137,10 @@ export function SubjectSidebar() {
             <button
               key={view.id}
               onClick={() => setActiveView(view.id)}
-              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-all ${
-                activeView === view.id
+              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-all ${activeView === view.id
                   ? "bg-sidebar-accent text-sidebar-primary font-medium"
                   : "text-sidebar-foreground hover:bg-sidebar-accent/50"
-              }`}
+                }`}
             >
               <view.icon className="w-4 h-4" />
               <span>{view.label}</span>

@@ -84,6 +84,7 @@ const mockStudyMaterial: StudyMaterial = {
   citations: mockCitations,
 };
 const STORAGE_KEY = "askmynotes_subjects";
+const BASE_URL = (import.meta as any).env?.VITE_API_URL || (typeof window !== "undefined" && window.location.hostname !== "localhost" ? "" : "http://localhost:8000");
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<AppState>(() => {
     try {
@@ -138,7 +139,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       const formData = new FormData();
       formData.append("subject_id", subjectId);
       formData.append("files", rawFile);
-      fetch("http://localhost:8000/upload", {
+      fetch(`${BASE_URL}/upload`, {
         method: "POST",
         body: formData,
       })
@@ -159,7 +160,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         const formData = new FormData();
         formData.append("subject_id", subjectId);
         formData.append("file_name", file.name);
-        fetch("http://localhost:8000/file", {
+        fetch(`${BASE_URL}/file`, {
           method: "DELETE",
           body: formData,
         })
@@ -198,7 +199,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     formData.append("subject_id", subjectId);
     formData.append("subject_name", subject?.name || "this subject");
     formData.append("message", content);
-    fetch("http://localhost:8000/chat", {
+    fetch(`${BASE_URL}/chat`, {
       method: "POST",
       body: formData,
     })
@@ -244,7 +245,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     formData.append("subject_id", subjectId);
     formData.append("subject_name", subject?.name || "this subject");
     formData.append("topic", topic);
-    fetch("http://localhost:8000/study", {
+    fetch(`${BASE_URL}/study`, {
       method: "POST",
       body: formData,
     })

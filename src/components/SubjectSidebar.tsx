@@ -1,15 +1,26 @@
+import { useState } from "react";
 import { useApp } from "@/contexts/AppContext";
-import { MessageSquare, FolderOpen, GraduationCap, BookOpen } from "lucide-react";
-import { motion } from "framer-motion";
+import { MessageSquare, FolderOpen, GraduationCap, BookOpen, Plus, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export function SubjectSidebar() {
-  const { subjects, activeSubjectId, setActiveSubject, activeView, setActiveView } = useApp();
+  const { subjects, activeSubjectId, setActiveSubject, activeView, setActiveView, addSubject, removeSubject } = useApp();
+  const [showInput, setShowInput] = useState(false);
+  const [newName, setNewName] = useState("");
 
   const views = [
     { id: "chat" as const, label: "Chat", icon: MessageSquare },
     { id: "files" as const, label: "Files", icon: FolderOpen },
     { id: "study" as const, label: "Study Mode", icon: GraduationCap },
   ];
+
+  const handleAdd = () => {
+    if (newName.trim()) {
+      addSubject(newName.trim());
+      setNewName("");
+      setShowInput(false);
+    }
+  };
 
   return (
     <aside className="w-64 bg-sidebar border-r border-sidebar-border flex flex-col h-full">
@@ -27,34 +38,97 @@ export function SubjectSidebar() {
       </div>
 
       {/* Subjects */}
-      <div className="p-3">
-        <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-2 px-2">
-          Subjects
-        </p>
-        <div className="space-y-1">
-          {subjects.map((subject) => (
-            <motion.button
-              key={subject.id}
-              whileTap={{ scale: 0.97 }}
-              onClick={() => setActiveSubject(subject.id)}
-              className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-all ${
-                activeSubjectId === subject.id
-                  ? "bg-sidebar-accent text-sidebar-primary font-medium"
-                  : "text-sidebar-foreground hover:bg-sidebar-accent/50"
-              }`}
+      <div className="p-3 flex-1 overflow-y-auto">
+        <div className="flex items-center justify-between mb-2 px-2">
+          <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
+            Subjects
+          </p>
+          <button
+            onClick={() => setShowInput(true)}
+            className="text-muted-foreground hover:text-primary transition-colors"
+          >
+            <Plus className="w-3.5 h-3.5" />
+          </button>
+        </div>
+
+        <AnimatePresence>
+          {showInput && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="overflow-hidden mb-2"
             >
-              <span className="text-base">{subject.icon}</span>
-              <span>{subject.name}</span>
-              <span className="ml-auto text-[10px] text-muted-foreground">
-                {subject.files.length} files
-              </span>
-            </motion.button>
-          ))}
+              <div className="flex gap-1.5">
+                <input
+                  autoFocus
+                  value={newName}
+                  onChange={(e) => setNewName(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") handleAdd();
+                    if (e.key === "Escape") { setShowInput(false); setNewName(""); }
+                  }}
+                  placeholder="Subject name..."
+                  className="flex-1 bg-sidebar-accent text-sidebar-foreground rounded-lg px-3 py-1.5 text-xs outline-none focus:ring-1 focus:ring-primary placeholder:text-muted-foreground"
+                />
+                <button onClick={handleAdd} className="text-primary text-xs font-medium px-2">
+                  Add
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <div className="space-y-1">
+          <AnimatePresence>
+            {subjects.map((subject) => (
+              <motion.div
+                key={subject.id}
+                initial={{ opacity: 0, x: -12 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -12 }}
+                className="group"
+              >
+                <button
+                  onClick={() => setActiveSubject(subject.id)}
+                  className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-all ${
+                    activeSubjectId === subject.id
+                      ? "bg-sidebar-accent text-sidebar-primary font-medium"
+                      : "text-sidebar-foreground hover:bg-sidebar-accent/50"
+                  }`}
+                >
+                  <span className="text-base">{subject.icon}</span>
+                  <span className="truncate">{subject.name}</span>
+                  <span className="ml-auto text-[10px] text-muted-foreground flex items-center gap-1">
+                    {subject.files.length}
+                    <button
+                      onClick={(e) => { e.stopPropagation(); removeSubject(subject.id); }}
+                      className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive transition-all ml-1"
+                    >
+                      <X className="w-3 h-3" />
+                    </button>
+                  </span>
+                </button>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+
+          {subjects.length === 0 && !showInput && (
+            <div className="text-center py-6">
+              <p className="text-xs text-muted-foreground mb-2">No subjects yet</p>
+              <button
+                onClick={() => setShowInput(true)}
+                className="text-xs text-primary font-medium hover:underline"
+              >
+                + Add your first subject
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
       {/* Views */}
-      <div className="p-3 mt-auto border-t border-sidebar-border">
+      <div className="p-3 border-t border-sidebar-border">
         <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-2 px-2">
           Tools
         </p>

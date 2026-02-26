@@ -1,6 +1,5 @@
 import { Navbar } from "@/components/Navbar";
 import { Database, Brain, FileSearch, Cpu, Code2, Layers, Globe, Zap } from "lucide-react";
-
 const techStack = [
     { icon: Code2, name: "React + Vite", desc: "Frontend framework", color: "cyan" },
     { icon: Layers, name: "TailwindCSS", desc: "Styling", color: "magenta" },
@@ -9,7 +8,6 @@ const techStack = [
     { icon: Database, name: "TF-IDF Search", desc: "Vector retrieval", color: "cyan" },
     { icon: FileSearch, name: "pdfplumber", desc: "PDF extraction", color: "magenta" },
 ];
-
 const ragSteps = [
     { step: "1", title: "Upload", desc: "PDF/TXT files are uploaded and text is extracted page-by-page" },
     { step: "2", title: "Chunk", desc: "Text is split into 500-char overlapping chunks with metadata" },
@@ -17,15 +15,13 @@ const ragSteps = [
     { step: "4", title: "Search", desc: "Your question is matched against chunks using keyword scoring" },
     { step: "5", title: "Generate", desc: "Top chunks + question are sent to the LLM for a grounded answer" },
 ];
-
 export default function About() {
     return (
         <div className="min-h-screen bg-background flex flex-col pt-16">
             <Navbar />
-
             <section className="pt-28 pb-20 px-6">
                 <div className="max-w-4xl mx-auto">
-                    {/* Header */}
+                    {}
                     <div className="text-center mb-16">
                         <h1 className="text-4xl md:text-5xl font-semibold tracking-[-0.03em] leading-tight text-white mb-4">
                             About
@@ -34,8 +30,7 @@ export default function About() {
                             Understanding the technology behind AskMyNotes.
                         </p>
                     </div>
-
-                    {/* What is AskMyNotes */}
+                    {}
                     <div className="bg-white/5 border border-white/5 backdrop-blur-xl rounded-2xl p-8 mb-16">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -55,8 +50,7 @@ export default function About() {
                             </p>
                         </div>
                     </div>
-
-                    {/* RAG Pipeline */}
+                    {}
                     <div className="text-center mb-8">
                         <h2 className="text-2xl font-semibold tracking-tight text-foreground">
                             How <span className="text-primary">RAG</span> Works
@@ -78,8 +72,7 @@ export default function About() {
                             </div>
                         ))}
                     </div>
-
-                    {/* Tech Stack */}
+                    {}
                     <div className="text-center mb-8">
                         <h2 className="text-2xl font-semibold tracking-tight text-foreground">
                             Tech <span className="text-primary">Stack</span>
@@ -88,7 +81,6 @@ export default function About() {
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-16">
                         {techStack.map((tech, i) => {
                             const Icon = tech.icon;
-
                             return (
                                 <div
                                     key={i}
@@ -103,8 +95,7 @@ export default function About() {
                             );
                         })}
                     </div>
-
-                    {/* Creator */}
+                    {}
                     <div className="bg-white/5 border border-white/5 backdrop-blur-xl rounded-2xl p-8 text-center max-w-md mx-auto">
                         <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                             <Globe className="w-6 h-6 text-primary" />

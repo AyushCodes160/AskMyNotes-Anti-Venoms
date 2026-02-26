@@ -2,23 +2,19 @@ import { useState } from "react";
 import { useApp } from "@/contexts/AppContext";
 import { GraduationCap, Sparkles, CheckCircle2, XCircle, ChevronDown, ChevronUp, FileText } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-
 export function StudyMode() {
   const { subjects, activeSubjectId, studyMaterial, generateStudyMaterial, isLoading } = useApp();
   const [topic, setTopic] = useState("");
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, number>>({});
   const [showShortAnswers, setShowShortAnswers] = useState<Record<number, boolean>>({});
   const subject = subjects.find((s) => s.id === activeSubjectId);
-
   if (!subject) return null;
-
   const handleGenerate = () => {
     if (!topic.trim() || !activeSubjectId) return;
     generateStudyMaterial(activeSubjectId, topic.trim());
     setSelectedAnswers({});
     setShowShortAnswers({});
   };
-
   return (
     <div className="flex flex-col h-full bg-background/30">
       <div className="px-6 py-5 border-b border-white/5 bg-background/50 backdrop-blur-xl">
@@ -30,9 +26,8 @@ export function StudyMode() {
           Generate explanations, MCQs, and short questions from your notes
         </p>
       </div>
-
       <div className="flex-1 overflow-y-auto p-6">
-        {/* Topic Input */}
+        {}
         <div className="flex gap-2 mb-6">
           <input
             value={topic}
@@ -53,8 +48,7 @@ export function StudyMode() {
             Generate
           </button>
         </div>
-
-        {/* Loading */}
+        {}
         {isLoading && (
           <div className="flex flex-col items-center py-16 animate-fade-in">
             <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 animate-pulse-slow">
@@ -63,11 +57,10 @@ export function StudyMode() {
             <p className="text-sm text-muted-foreground">Generating study material from your notes...</p>
           </div>
         )}
-
-        {/* Study Material */}
+        {}
         {studyMaterial && !isLoading && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-            {/* Explanation */}
+            {}
             <div className="bg-white/5 border border-white/5 backdrop-blur-md rounded-2xl p-5">
               <h3 className="text-sm font-bold text-foreground flex items-center gap-2 mb-3">
                 📖 Topic: {studyMaterial.topic}
@@ -76,8 +69,7 @@ export function StudyMode() {
                 {studyMaterial.explanation}
               </p>
             </div>
-
-            {/* MCQs */}
+            {}
             <div className="bg-white/5 border border-white/5 backdrop-blur-md rounded-2xl p-5">
               <h3 className="text-sm font-bold text-foreground mb-4">🧠 Multiple Choice Questions</h3>
               <div className="space-y-5">
@@ -132,8 +124,7 @@ export function StudyMode() {
                 ))}
               </div>
             </div>
-
-            {/* Short Questions */}
+            {}
             <div className="bg-white/5 border border-white/5 backdrop-blur-md rounded-2xl p-5">
               <h3 className="text-sm font-bold text-foreground mb-4">✍️ Short Answer Questions</h3>
               <div className="space-y-3">
@@ -172,8 +163,7 @@ export function StudyMode() {
                 ))}
               </div>
             </div>
-
-            {/* Citations */}
+            {}
             <div className="bg-white/5 border border-white/5 backdrop-blur-md rounded-2xl p-5">
               <h3 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
                 <FileText className="w-4 h-4 text-primary" />
@@ -192,8 +182,7 @@ export function StudyMode() {
             </div>
           </motion.div>
         )}
-
-        {/* Empty State */}
+        {}
         {!studyMaterial && !isLoading && (
           <div className="flex flex-col items-center justify-center py-20 text-center animate-fade-in">
             <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">

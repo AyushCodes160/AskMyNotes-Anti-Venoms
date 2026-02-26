@@ -1,46 +1,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 @layer base {
   :root {
-    /* Forcing default theme to be the dark Dribbble theme since the design is exclusively dark */
     --background: 0 0% 4%;
-    /* #0A0A0A */
     --foreground: 0 0% 98%;
-
-    /* Surfaces */
     --card: 0 0% 6%;
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 6%;
     --popover-foreground: 0 0% 98%;
-
-    /* The core amber/orange accent */
     --primary: 38 92% 50%;
-    /* #f59e0b */
     --primary-foreground: 0 0% 9%;
-
-    /* Destructive/Error states */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-
-    /* Muted elements */
     --secondary: 0 0% 12%;
     --secondary-foreground: 0 0% 98%;
     --muted: 0 0% 12%;
     --muted-foreground: 240 5% 65%;
-    /* zinc-400 */
-
-    /* Borders and inputs - extremely subtle */
     --border: 0 0% 15%;
     --input: 0 0% 12%;
     --ring: 38 92% 50%;
-
     --radius: 1rem;
-
-    /* Sidebar - keeping it integrated with the dark background */
     --sidebar-background: 0 0% 6%;
     --sidebar-foreground: 240 5% 75%;
     --sidebar-primary: 38 92% 50%;
@@ -49,22 +30,14 @@
     --sidebar-accent-foreground: 0 0% 98%;
     --sidebar-border: 0 0% 12%;
     --sidebar-ring: 38 92% 50%;
-
-    /* Confidence states */
     --confidence-high: 142 71% 45%;
     --confidence-medium: 38 92% 50%;
     --confidence-low: 348 83% 58%;
-
-    /* Chat bubbles */
     --chat-user: 0 0% 15%;
     --chat-ai: 0 0% 6%;
-
-    /* Frosted glass alpha */
     --glass: 0 0% 4% / 0.6;
   }
-
   .dark {
-    /* Mirroring the root since this design is dark-only */
     --background: 0 0% 4%;
     --foreground: 0 0% 98%;
     --card: 0 0% 6%;
@@ -82,7 +55,6 @@
     --border: 0 0% 15%;
     --input: 0 0% 12%;
     --ring: 38 92% 50%;
-
     --sidebar-background: 0 0% 6%;
     --sidebar-foreground: 240 5% 75%;
     --sidebar-primary: 38 92% 50%;
@@ -91,7 +63,6 @@
     --sidebar-accent-foreground: 0 0% 98%;
     --sidebar-border: 0 0% 12%;
     --sidebar-ring: 38 92% 50%;
-
     --confidence-high: 142 71% 45%;
     --confidence-medium: 38 92% 50%;
     --confidence-low: 348 83% 58%;
@@ -100,37 +71,28 @@
     --glass: 0 0% 4% / 0.6;
   }
 }
-
 @layer base {
   * {
     @apply border-border;
   }
-
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    /* The Dribbble shot uses a very dark, slightly textured or noisey background feel */
     background-color: hsl(var(--background));
   }
 }
-
 @layer utilities {
   .font-body {
     font-family: 'Inter', sans-serif;
   }
-
   .text-gradient {
-    /* The amber gradient used in the design */
     @apply bg-clip-text text-transparent;
     background-image: linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%);
   }
-
   .text-gradient-amber {
     @apply bg-clip-text text-transparent;
     background-image: linear-gradient(90deg, #F59E0B 0%, #FBBF24 100%);
   }
-
-  /* Core UI Element: The Glass Card from the Dribbble shot */
   .glass-card {
     background: hsl(0 0% 100% / 0.03);
     backdrop-filter: blur(24px);
@@ -138,8 +100,6 @@
     border: 1px solid hsl(0 0% 100% / 0.05);
     box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.5);
   }
-
-  /* Clean interactive buttons */
   .btn-dribbble {
     padding: 12px 28px;
     font-weight: 500;
@@ -148,18 +108,15 @@
     background: hsl(0 0% 100% / 0.05);
     border: 1px solid hsl(0 0% 100% / 0.1);
     border-radius: 9999px;
-    /* Pill shape */
     cursor: pointer;
     transition: all 0.3s ease;
     backdrop-filter: blur(8px);
   }
-
   .btn-dribbble:hover {
     background: hsl(0 0% 100% / 0.1);
     border-color: hsl(0 0% 100% / 0.2);
     transform: translateY(-1px);
   }
-
   .btn-primary {
     padding: 12px 28px;
     font-weight: 600;
@@ -171,28 +128,22 @@
     cursor: pointer;
     transition: all 0.3s ease;
   }
-
   .btn-primary:hover {
     background: #F4F4F5;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
   }
 }
-
-/* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 6px;
 }
-
 ::-webkit-scrollbar-track {
   background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
   background: hsl(0 0% 100% / 0.1);
   border-radius: 3px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(0 0% 100% / 0.2);
 }

@@ -8,11 +8,8 @@ import Index from "./pages/Index";
 import HowToUse from "./pages/HowToUse";
 import About from "./pages/About";
 import NotFound from "./pages/NotFound";
-
 import { ThemeProvider } from "./components/ThemeProvider";
-
 const queryClient = new QueryClient();
-
 const App = () => (
   <ThemeProvider defaultTheme="dark" storageKey="askmynotes-theme">
     <QueryClientProvider client={queryClient}>
@@ -32,5 +29,4 @@ const App = () => (
     </QueryClientProvider>
   </ThemeProvider>
 );
-
 export default App;

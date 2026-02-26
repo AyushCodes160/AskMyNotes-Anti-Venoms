@@ -1,7 +1,6 @@
 import { Navbar } from "@/components/Navbar";
 import { Upload, MessageSquare, BookOpen, Sparkles, FileText, ArrowRight, CheckCircle2 } from "lucide-react";
 import { Link } from "react-router-dom";
-
 const steps = [
     {
         icon: BookOpen,
@@ -54,15 +53,13 @@ const steps = [
         color: "magenta",
     },
 ];
-
 export default function HowToUse() {
     return (
         <div className="min-h-screen bg-background flex flex-col pt-16">
             <Navbar />
-
             <section className="pt-28 pb-20 px-6">
                 <div className="max-w-4xl mx-auto">
-                    {/* Header */}
+                    {}
                     <div className="text-center mb-16">
                         <h1 className="text-4xl md:text-5xl font-semibold tracking-[-0.03em] leading-tight text-white mb-4">
                             How to Use
@@ -71,22 +68,19 @@ export default function HowToUse() {
                             Get started in 4 simple steps. Upload your notes and let AI do the heavy lifting.
                         </p>
                     </div>
-
-                    {/* Steps */}
+                    {}
                     <div className="space-y-6">
                         {steps.map((step, i) => {
                             const Icon = step.icon;
-
                             return (
                                 <div
                                     key={i}
                                     className="relative p-8 rounded-2xl bg-white/5 border border-white/5 backdrop-blur-xl transition-all duration-300 hover:border-white/10 group"
                                 >
-                                    {/* Step number watermark */}
+                                    {}
                                     <div className="absolute top-4 right-6 text-6xl font-bold text-white/5">
                                         {step.number}
                                     </div>
-
                                     <div className="flex gap-6 items-start">
                                         <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
                                             <Icon className="w-6 h-6 text-primary" />
@@ -112,8 +106,7 @@ export default function HowToUse() {
                             );
                         })}
                     </div>
-
-                    {/* CTA */}
+                    {}
                     <div className="text-center mt-16">
                         <Link to="/app" className="btn-dribbble text-xs tracking-wider uppercase inline-flex items-center gap-2">
                             Start Studying <ArrowRight className="w-4 h-4" />

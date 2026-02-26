@@ -2,18 +2,15 @@ import { useState } from "react";
 import { useApp } from "@/contexts/AppContext";
 import { MessageSquare, FolderOpen, GraduationCap, BookOpen, Plus, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-
 export function SubjectSidebar() {
   const { subjects, activeSubjectId, setActiveSubject, activeView, setActiveView, addSubject, removeSubject } = useApp();
   const [showInput, setShowInput] = useState(false);
   const [newName, setNewName] = useState("");
-
   const views = [
     { id: "chat" as const, label: "Chat", icon: MessageSquare },
     { id: "files" as const, label: "Files", icon: FolderOpen },
     { id: "study" as const, label: "Study Mode", icon: GraduationCap },
   ];
-
   const handleAdd = () => {
     if (newName.trim()) {
       addSubject(newName.trim());
@@ -21,10 +18,9 @@ export function SubjectSidebar() {
       setShowInput(false);
     }
   };
-
   return (
     <aside className="w-64 bg-background/50 border-r border-white/5 flex flex-col h-full backdrop-blur-xl">
-      {/* Logo */}
+      {}
       <div className="p-5 border-b border-white/5">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center overflow-hidden">
@@ -36,8 +32,7 @@ export function SubjectSidebar() {
           </div>
         </div>
       </div>
-
-      {/* Subjects */}
+      {}
       <div className="p-3 flex-1 overflow-y-auto">
         <div className="flex items-center justify-between mb-2 px-2">
           <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
@@ -51,7 +46,6 @@ export function SubjectSidebar() {
             <Plus className="w-3.5 h-3.5" />
           </button>
         </div>
-
         <AnimatePresence>
           {showInput && (
             <motion.div
@@ -79,7 +73,6 @@ export function SubjectSidebar() {
             </motion.div>
           )}
         </AnimatePresence>
-
         <div className="space-y-1">
           <AnimatePresence>
             {subjects.map((subject) => (
@@ -112,7 +105,6 @@ export function SubjectSidebar() {
               </motion.div>
             ))}
           </AnimatePresence>
-
           {subjects.length === 0 && !showInput && (
             <div className="text-center py-6">
               <p className="text-xs text-muted-foreground mb-2">No subjects yet</p>
@@ -126,8 +118,7 @@ export function SubjectSidebar() {
           )}
         </div>
       </div>
-
-      {/* Views */}
+      {}
       <div className="p-3 border-t border-white/5">
         <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-2 px-2">
           Tools

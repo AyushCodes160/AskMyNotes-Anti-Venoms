@@ -2,11 +2,9 @@ import { useCallback } from "react";
 import { useApp } from "@/contexts/AppContext";
 import { Upload, FileText, X, File } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-
 export function FileManager() {
   const { subjects, activeSubjectId, addFile, removeFile } = useApp();
   const subject = subjects.find((s) => s.id === activeSubjectId);
-
   const handleDrop = useCallback(
     (e: React.DragEvent) => {
       e.preventDefault();
@@ -27,7 +25,6 @@ export function FileManager() {
     },
     [activeSubjectId, addFile]
   );
-
   const handleFileInput = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       if (!activeSubjectId || !e.target.files) return;
@@ -46,15 +43,12 @@ export function FileManager() {
     },
     [activeSubjectId, addFile]
   );
-
   if (!subject) return null;
-
   const formatSize = (bytes: number) => {
     if (bytes < 1024) return bytes + " B";
     if (bytes < 1048576) return (bytes / 1024).toFixed(1) + " KB";
     return (bytes / 1048576).toFixed(1) + " MB";
   };
-
   return (
     <div className="flex flex-col h-full bg-background/30">
       <div className="px-6 py-5 border-b border-white/5 bg-background/50 backdrop-blur-xl">
@@ -66,9 +60,8 @@ export function FileManager() {
           Upload PDF or TXT files. Multiple files per subject supported.
         </p>
       </div>
-
       <div className="flex-1 overflow-y-auto p-6">
-        {/* Drop zone */}
+        {}
         <div
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
@@ -89,8 +82,7 @@ export function FileManager() {
           <p className="text-sm font-medium text-foreground">Drop files here or click to browse</p>
           <p className="text-xs text-muted-foreground mt-1">Supports PDF, TXT</p>
         </div>
-
-        {/* File list */}
+        {}
         <AnimatePresence>
           {subject.files.map((file) => (
             <motion.div
@@ -122,7 +114,6 @@ export function FileManager() {
             </motion.div>
           ))}
         </AnimatePresence>
-
         {subject.files.length === 0 && (
           <p className="text-center text-sm text-muted-foreground mt-4">
             No files uploaded yet. Add your notes to start asking questions.

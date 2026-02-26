@@ -13,7 +13,7 @@ from rag.llm import LLMManager
 
 app = FastAPI()
 
-# Enable CORS
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:8081"],
@@ -22,7 +22,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize RAG components
+
 vector_store = VectorStoreManager()
 llm = LLMManager()
 processor = DocumentProcessor()
@@ -43,7 +43,7 @@ async def upload_files(
         with open(file_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
         
-        # Process based on extension
+        
         if file.filename.endswith(".pdf"):
             pages = processor.extract_text_from_pdf(file_path)
             chunks = processor.chunk_text(pages)
@@ -53,7 +53,7 @@ async def upload_files(
         else:
             continue
             
-        # Index in Vector DB
+        
         vector_store.add_documents(subject_id, chunks, file.filename)
         
         file_info.append({
@@ -87,16 +87,16 @@ async def chat(
     conversation_history: str = Form("[]")
 ):
     import json as _json
-    # Parse conversation history
+    
     try:
         history = _json.loads(conversation_history)
     except:
         history = []
     
-    # 1. Semantic Search
+    
     context_chunks = vector_store.search(subject_id, message)
     
-    # 2. Generate grounded response with conversation context
+    
     response = llm.generate_response(message, context_chunks, subject_name, history)
     return response
 
@@ -106,10 +106,10 @@ async def study(
     subject_name: str = Form("this subject"),
     topic: str = Form(...)
 ):
-    # 1. Semantic Search for the topic
+    
     context_chunks = vector_store.search(subject_id, topic, n_results=10)
     
-    # 2. Generate study material
+    
     response = llm.generate_study_material(topic, context_chunks, subject_name)
     return response
 

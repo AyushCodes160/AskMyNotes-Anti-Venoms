@@ -4,7 +4,6 @@ import { ChatInterface } from "@/components/ChatInterface";
 import { FileManager } from "@/components/FileManager";
 import { StudyMode } from "@/components/StudyMode";
 import { BookOpen, Plus } from "lucide-react";
-
 function EmptyState() {
   return (
     <div className="flex flex-col items-center justify-center h-full text-center animate-fade-in">
@@ -21,10 +20,8 @@ function EmptyState() {
     </div>
   );
 }
-
 function AppContent() {
   const { activeView, activeSubjectId } = useApp();
-
   return (
     <div className="flex h-screen w-full bg-background">
       <SubjectSidebar />
@@ -42,11 +39,9 @@ function AppContent() {
     </div>
   );
 }
-
 const Index = () => (
   <AppProvider>
     <AppContent />
   </AppProvider>
 );
-
 export default Index;

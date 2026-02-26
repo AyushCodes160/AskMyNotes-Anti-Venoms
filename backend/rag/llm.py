@@ -4,7 +4,7 @@ from typing import List, Dict
 from openai import OpenAI
 from dotenv import load_dotenv
 
-# Load .env from the backend directory
+
 _env_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env")
 load_dotenv(_env_path)
 
@@ -43,17 +43,17 @@ class LLMManager:
                 "citations": []
             }
 
-        # Build context from chunks
+        
         context_text = "\n\n".join([
             f"[Source: {c['metadata']['filename']}, Page {c['metadata']['page']}]\n{c['content']}"
             for c in context_chunks
         ])
 
-        # Build conversation history section
+        
         history_text = ""
         if conversation_history and len(conversation_history) > 0:
             history_lines = []
-            for msg in conversation_history[-6:]:  # Last 6 messages
+            for msg in conversation_history[-6:]:  
                 role = "Student" if msg.get("role") == "user" else "Assistant"
                 history_lines.append(f"{role}: {msg.get('content', '')}")
             history_text = f"""\n\nPREVIOUS CONVERSATION (use this for follow-up context):
@@ -72,19 +72,19 @@ CONTEXT FROM NOTES:
 CURRENT QUESTION: {query}
 
 Respond in this exact JSON format:
-{{
+{ 
   "answer": "Your detailed answer here, citing sources",
   "confidence": "High" or "Medium" or "Low",
   "citations": [
-    {{"fileName": "filename.pdf", "page": 1, "evidence": "exact quote from notes"}}
+    { "fileName": "filename.pdf", "page": 1, "evidence": "exact quote from notes"} 
   ]
-}}
+} 
 
 Return ONLY valid JSON, nothing else."""
 
         raw = self._call_llm(prompt)
 
-        # If no API key or LLM failed, use the chunks directly
+        
         if not raw:
             best = context_chunks[0]
             return {
@@ -98,9 +98,9 @@ Return ONLY valid JSON, nothing else."""
                 }]
             }
 
-        # Parse LLM JSON response
+        
         try:
-            # Strip markdown code fences if present
+            
             cleaned = raw.strip()
             if cleaned.startswith("```"):
                 cleaned = cleaned.split("\n", 1)[1]
@@ -119,7 +119,7 @@ Return ONLY valid JSON, nothing else."""
                 ]
             }
         except json.JSONDecodeError:
-            # LLM didn't return valid JSON, return raw text
+            
             return {
                 "content": raw,
                 "confidence": "Medium",
@@ -151,30 +151,30 @@ CONTEXT FROM NOTES:
 {context_text}
 
 Generate this exact JSON:
-{{
+{ 
   "explanation": "A clear explanation of {topic} based on the notes",
   "mcqs": [
-    {{
+    { 
       "question": "Question text",
       "options": ["A", "B", "C", "D"],
       "answer": 0,
       "explanation": "Why this is correct, citing the notes"
-    }}
+    } 
   ],
   "shortQuestions": [
-    {{
+    { 
       "question": "Short answer question",
       "answer": "Model answer from the notes"
-    }}
+    } 
   ]
-}}
+} 
 
 Generate exactly 5 MCQs and 3 short answer questions.
 Return ONLY valid JSON, nothing else."""
 
         raw = self._call_llm(prompt)
 
-        # Fallback if no API key
+        
         if not raw:
             return self._fallback_study(topic, context_chunks, subject_name)
 

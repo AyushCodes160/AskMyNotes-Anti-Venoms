@@ -10,7 +10,7 @@ from collections import Counter
 
 _store: Dict[str, List[Dict]] = {}
 
-# Common English stop words to filter out
+
 STOP_WORDS = {
     'a', 'an', 'the', 'is', 'are', 'was', 'were', 'be', 'been', 'being',
     'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could',
@@ -56,7 +56,7 @@ def _score(query_tokens: List[str], doc_tokens: List[str], doc_text: str, query_
     doc_len = len(doc_tokens)
     score = 0.0
 
-    # TF-IDF scoring
+    
     matched_terms = 0
     for qt in query_tokens:
         tf = doc_tf.get(qt, 0) / doc_len
@@ -65,26 +65,26 @@ def _score(query_tokens: List[str], doc_tokens: List[str], doc_text: str, query_
             matched_terms += 1
         score += tf * weight
 
-    # Coverage bonus: what fraction of query terms appear in the document?
+    
     coverage = matched_terms / len(query_tokens) if query_tokens else 0
-    score *= (1 + coverage * 2)  # Up to 3x boost for full coverage
+    score *= (1 + coverage * 2)  
 
-    # Exact phrase match bonus
+    
     query_lower = query_text.lower()
     doc_lower = doc_text.lower()
 
-    # Check if all important query words appear in the document
+    
     important_words = [t for t in query_tokens if idf.get(t, 0) > 2.0]
     if important_words:
         all_present = all(w in doc_lower for w in important_words)
         if all_present:
-            score *= 3.0  # Big boost when all important words are present
+            score *= 3.0  
 
-    # Substring/stem matching
+    
     for qt in query_tokens:
         if len(qt) >= 4:
             for dt in set(doc_tokens):
-                if len(dt) >= 4 and (qt[:4] == dt[:4]):  # Crude stemming
+                if len(dt) >= 4 and (qt[:4] == dt[:4]):  
                     score += 0.5 * idf.get(dt, 1.0)
 
     return score

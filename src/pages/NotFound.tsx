@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { AlertTriangle, Home } from "lucide-react";
-
 export default function NotFound() {
   return (
     <div className="min-h-screen bg-background cyber-grid scan-lines">

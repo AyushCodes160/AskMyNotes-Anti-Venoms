@@ -2,7 +2,6 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { useApp, type ChatMessage } from "@/contexts/AppContext";
 import { Send, AlertTriangle, CheckCircle2, Info, FileText, Mic, MicOff, Volume2, VolumeX } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-
 function ConfidenceBadge({ level }: { level: "High" | "Medium" | "Low" }) {
   const config = {
     High: { color: "bg-confidence-high", icon: CheckCircle2, label: "High Confidence" },
@@ -17,7 +16,6 @@ function ConfidenceBadge({ level }: { level: "High" | "Medium" | "Low" }) {
     </span>
   );
 }
-
 function TypingIndicator() {
   return (
     <div className="flex items-center gap-1 px-4 py-3">
@@ -31,8 +29,6 @@ function TypingIndicator() {
     </div>
   );
 }
-
-// Text-to-speech helper
 function speakText(text: string) {
   if (!("speechSynthesis" in window)) return;
   window.speechSynthesis.cancel();
@@ -40,19 +36,16 @@ function speakText(text: string) {
   utterance.rate = 1.0;
   utterance.pitch = 1.0;
   utterance.volume = 1.0;
-  // Try to use a good English voice
   const voices = window.speechSynthesis.getVoices();
   const englishVoice = voices.find(v => v.lang.startsWith("en") && v.name.includes("Google")) ||
     voices.find(v => v.lang.startsWith("en"));
   if (englishVoice) utterance.voice = englishVoice;
   window.speechSynthesis.speak(utterance);
 }
-
 function MessageBubble({ message }: { message: ChatMessage }) {
   const [showEvidence, setShowEvidence] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const isUser = message.role === "user";
-
   const handleSpeak = () => {
     if (isSpeaking) {
       window.speechSynthesis.cancel();
@@ -71,7 +64,6 @@ function MessageBubble({ message }: { message: ChatMessage }) {
       window.speechSynthesis.speak(utterance);
     }
   };
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
@@ -90,10 +82,8 @@ function MessageBubble({ message }: { message: ChatMessage }) {
             <span className="text-xs font-semibold">Not found in notes</span>
           </div>
         )}
-
         <p className="text-sm whitespace-pre-wrap leading-relaxed">{message.content}</p>
-
-        {/* Voice + Confidence row for AI messages */}
+        {}
         {!isUser && (
           <div className="mt-3 pt-2 border-t border-border/50 flex items-center gap-2">
             {message.confidence && <ConfidenceBadge level={message.confidence} />}
@@ -110,7 +100,6 @@ function MessageBubble({ message }: { message: ChatMessage }) {
             </button>
           </div>
         )}
-
         {message.citations && message.citations.length > 0 && (
           <div className="mt-2 pt-2 border-t border-border/50">
             <button
@@ -120,7 +109,6 @@ function MessageBubble({ message }: { message: ChatMessage }) {
               <FileText className="w-3 h-3" />
               {message.citations.length} Citation{message.citations.length > 1 ? "s" : ""} · {showEvidence ? "Hide" : "Show"} Evidence
             </button>
-
             <AnimatePresence>
               {showEvidence && (
                 <motion.div
@@ -148,7 +136,6 @@ function MessageBubble({ message }: { message: ChatMessage }) {
     </motion.div>
   );
 }
-
 export function ChatInterface() {
   const { subjects, activeSubjectId, sendMessage, isLoading } = useApp();
   const [input, setInput] = useState("");
@@ -157,33 +144,25 @@ export function ChatInterface() {
   const recognitionRef = useRef<any>(null);
   const subject = subjects.find((s) => s.id === activeSubjectId);
   const prevMessageCountRef = useRef(0);
-
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [subject?.messages, isLoading]);
-
-  // Initialize speech recognition
   const startListening = useCallback(() => {
-    // Stop any ongoing AI speech when the user starts listening
     if ("speechSynthesis" in window) {
       window.speechSynthesis.cancel();
     }
-
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (!SpeechRecognition) {
       alert("Voice input is not supported in this browser. Please use Chrome.");
       return;
     }
-
     const recognition = new SpeechRecognition();
     recognition.continuous = false;
     recognition.interimResults = true;
     recognition.lang = "en-US";
-
     recognition.onstart = () => setIsListening(true);
     recognition.onend = () => setIsListening(false);
     recognition.onerror = () => setIsListening(false);
-
     recognition.onresult = (event: any) => {
       let finalTranscript = "";
       let interimTranscript = "";
@@ -195,8 +174,6 @@ export function ChatInterface() {
         }
       }
       setInput(finalTranscript || interimTranscript);
-
-      // Auto-send when speech is finalized
       if (finalTranscript && activeSubjectId) {
         setTimeout(() => {
           sendMessage(activeSubjectId, finalTranscript.trim());
@@ -204,29 +181,24 @@ export function ChatInterface() {
         }, 300);
       }
     };
-
     recognitionRef.current = recognition;
     recognition.start();
   }, [activeSubjectId, sendMessage]);
-
   const stopListening = useCallback(() => {
     if (recognitionRef.current) {
       recognitionRef.current.stop();
     }
     setIsListening(false);
   }, []);
-
   const handleSend = () => {
     if (!input.trim() || !activeSubjectId || isLoading) return;
     sendMessage(activeSubjectId, input.trim());
     setInput("");
   };
-
   if (!subject) return null;
-
   return (
     <div className="flex flex-col h-full bg-background/30">
-      {/* Header */}
+      {}
       <div className="px-6 py-5 border-b border-white/5 bg-background/50 backdrop-blur-xl">
         <div className="flex items-center gap-3 mb-1">
           <span className="text-2xl">{subject.icon}</span>
@@ -239,8 +211,7 @@ export function ChatInterface() {
           Ask anything — answers grounded in your notes only · 🎤 Voice enabled
         </p>
       </div>
-
-      {/* Messages */}
+      {}
       <div className="flex-1 overflow-y-auto p-6">
         {subject.messages.length === 0 && (
           <div className="flex flex-col items-center justify-center h-full text-center animate-fade-in">
@@ -260,11 +231,9 @@ export function ChatInterface() {
             </p>
           </div>
         )}
-
         {subject.messages.map((msg) => (
           <MessageBubble key={msg.id} message={msg} />
         ))}
-
         {isLoading && (
           <div className="flex justify-start mb-4">
             <div className="bg-white/5 border border-white/5 backdrop-blur-md rounded-2xl rounded-bl-md">
@@ -272,14 +241,12 @@ export function ChatInterface() {
             </div>
           </div>
         )}
-
         <div ref={messagesEndRef} />
       </div>
-
-      {/* Input */}
+      {}
       <div className="px-6 py-5 border-t border-white/5 bg-background/50 backdrop-blur-xl">
         <div className="flex gap-3">
-          {/* Mic button */}
+          {}
           <button
             onClick={isListening ? stopListening : startListening}
             className={`rounded-xl px-3 py-3 transition-all ${isListening
@@ -290,7 +257,6 @@ export function ChatInterface() {
           >
             {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
           </button>
-
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}

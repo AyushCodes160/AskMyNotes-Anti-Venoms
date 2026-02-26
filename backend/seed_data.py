@@ -5,7 +5,7 @@ Run: python3 seed_data.py
 import os
 import sys
 
-# Add parent to path so we can import rag modules
+
 sys.path.insert(0, os.path.dirname(__file__))
 
 from rag.processor import DocumentProcessor
@@ -44,13 +44,13 @@ momentum before a collision equals the total momentum after the collision.
 """
 
 def seed():
-    # Write sample file
+    
     sample_path = os.path.join(os.path.dirname(__file__), "uploads", "physics_notes.txt")
     os.makedirs(os.path.dirname(sample_path), exist_ok=True)
     with open(sample_path, "w") as f:
         f.write(PHYSICS_TEXT)
 
-    # Process and index
+    
     processor = DocumentProcessor()
     vector_store = VectorStoreManager()
 
@@ -61,7 +61,7 @@ def seed():
     print(f"✅ Seeded {len(chunks)} chunks for Physics subject")
     print(f"📁 Sample file: {sample_path}")
 
-    # Quick test
+    
     results = vector_store.search("physics_001", "What is F=ma?")
     print(f"🔍 Test search for 'What is F=ma?' returned {len(results)} results")
     if results:

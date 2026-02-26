@@ -84,7 +84,7 @@ const mockStudyMaterial: StudyMaterial = {
   citations: mockCitations,
 };
 const STORAGE_KEY = "askmynotes_subjects";
-const BASE_URL = (import.meta as any).env?.VITE_API_URL || (typeof window !== "undefined" && window.location.hostname !== "localhost" ? "" : "http://localhost:8000");
+const BASE_URL = (typeof window !== "undefined" && window.location.hostname !== "localhost") ? "" : "http://localhost:8000";
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<AppState>(() => {
     try {

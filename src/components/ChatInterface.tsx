@@ -80,8 +80,8 @@ function MessageBubble({ message }: { message: ChatMessage }) {
     >
       <div
         className={`max-w-[80%] rounded-2xl px-4 py-3 ${isUser
-            ? "bg-primary text-primary-foreground rounded-br-md"
-            : "bg-card border border-border rounded-bl-md"
+          ? "bg-primary text-primary-foreground rounded-br-md"
+          : "bg-card border border-border rounded-bl-md"
           }`}
       >
         {message.notFound && (
@@ -100,8 +100,8 @@ function MessageBubble({ message }: { message: ChatMessage }) {
             <button
               onClick={handleSpeak}
               className={`ml-auto p-1.5 rounded-lg transition-all text-xs flex items-center gap-1 ${isSpeaking
-                  ? "bg-primary/20 text-primary"
-                  : "text-muted-foreground hover:text-primary hover:bg-primary/10"
+                ? "bg-primary/20 text-primary"
+                : "text-muted-foreground hover:text-primary hover:bg-primary/10"
                 }`}
               title={isSpeaking ? "Stop speaking" : "Read aloud"}
             >
@@ -153,7 +153,6 @@ export function ChatInterface() {
   const { subjects, activeSubjectId, sendMessage, isLoading } = useApp();
   const [input, setInput] = useState("");
   const [isListening, setIsListening] = useState(false);
-  const [autoSpeak, setAutoSpeak] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
   const subject = subjects.find((s) => s.id === activeSubjectId);
@@ -163,21 +162,13 @@ export function ChatInterface() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [subject?.messages, isLoading]);
 
-  // Auto-speak new AI responses
-  useEffect(() => {
-    if (!subject || !autoSpeak) return;
-    const msgs = subject.messages;
-    if (msgs.length > prevMessageCountRef.current) {
-      const lastMsg = msgs[msgs.length - 1];
-      if (lastMsg.role === "assistant" && !lastMsg.notFound) {
-        speakText(lastMsg.content);
-      }
-    }
-    prevMessageCountRef.current = msgs.length;
-  }, [subject?.messages, autoSpeak]);
-
   // Initialize speech recognition
   const startListening = useCallback(() => {
+    // Stop any ongoing AI speech when the user starts listening
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+    }
+
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (!SpeechRecognition) {
       alert("Voice input is not supported in this browser. Please use Chrome.");
@@ -241,21 +232,6 @@ export function ChatInterface() {
           <span className="text-xl">{subject.icon}</span>
           <h2 className="font-semibold text-foreground">{subject.name}</h2>
           <span className="text-xs text-muted-foreground">· {subject.files.length} notes loaded</span>
-          <div className="ml-auto flex items-center gap-1">
-            <button
-              onClick={() => setAutoSpeak(!autoSpeak)}
-              className={`p-1.5 rounded-lg text-xs flex items-center gap-1 transition-all ${autoSpeak
-                  ? "bg-primary/15 text-primary"
-                  : "text-muted-foreground hover:text-primary"
-                }`}
-              title={autoSpeak ? "Auto-speak ON" : "Auto-speak OFF"}
-            >
-              {autoSpeak ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5" />}
-              <span className="font-cyber text-[9px] tracking-wider hidden sm:inline">
-                {autoSpeak ? "VOICE ON" : "VOICE OFF"}
-              </span>
-            </button>
-          </div>
         </div>
         <p className="text-xs text-muted-foreground mt-0.5">
           Ask anything — answers grounded in your notes only · 🎤 Voice enabled
@@ -305,8 +281,8 @@ export function ChatInterface() {
           <button
             onClick={isListening ? stopListening : startListening}
             className={`rounded-xl px-3 py-3 transition-all ${isListening
-                ? "bg-red-500/20 text-red-400 animate-pulse border border-red-500/30"
-                : "bg-secondary text-muted-foreground hover:text-primary hover:bg-primary/10 border border-transparent"
+              ? "bg-red-500/20 text-red-400 animate-pulse border border-red-500/30"
+              : "bg-secondary text-muted-foreground hover:text-primary hover:bg-primary/10 border border-transparent"
               }`}
             title={isListening ? "Stop listening" : "Speak your question"}
           >

@@ -20,90 +20,98 @@ const ragSteps = [
 
 export default function About() {
     return (
-        <div className="min-h-screen bg-background cyber-grid scan-lines">
+        <div className="min-h-screen bg-background flex flex-col pt-16">
             <Navbar />
 
             <section className="pt-28 pb-20 px-6">
                 <div className="max-w-4xl mx-auto">
                     {/* Header */}
                     <div className="text-center mb-16">
-                        <h1 className="font-cyber text-3xl md:text-4xl font-black mb-4">
-                            <span className="text-gradient">About</span>
+                        <h1 className="text-4xl md:text-5xl font-semibold tracking-[-0.03em] leading-tight text-white mb-4">
+                            About
                         </h1>
-                        <p className="font-body text-lg text-[hsl(200,15%,50%)] max-w-xl mx-auto">
+                        <p className="text-lg text-muted-foreground font-light max-w-xl mx-auto">
                             Understanding the technology behind AskMyNotes.
                         </p>
                     </div>
 
                     {/* What is AskMyNotes */}
-                    <div className="glass-panel cyber-border-glow rounded-xl p-8 mb-12">
-                        <div className="flex items-center gap-3 mb-4">
-                            <Zap className="w-6 h-6 text-[hsl(185,100%,50%)]" />
-                            <h2 className="font-cyber text-lg font-bold tracking-wider text-foreground">What is AskMyNotes?</h2>
+                    <div className="bg-white/5 border border-white/5 backdrop-blur-xl rounded-2xl p-8 mb-16">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                                <Zap className="w-5 h-5 text-primary" />
+                            </div>
+                            <h2 className="text-xl font-semibold tracking-wide text-foreground">What is AskMyNotes?</h2>
                         </div>
-                        <p className="font-body text-[hsl(200,15%,55%)] leading-relaxed mb-4">
-                            AskMyNotes is a <strong className="text-[hsl(185,100%,50%)]">subject-scoped AI study copilot</strong> that
-                            uses Retrieval-Augmented Generation (RAG) to answer questions strictly from your uploaded notes.
-                        </p>
-                        <p className="font-body text-[hsl(200,15%,55%)] leading-relaxed">
-                            Unlike general AI chatbots, AskMyNotes <strong className="text-[hsl(325,100%,50%)]">never makes things up</strong>.
-                            Every answer is grounded in your material with confidence levels and exact citations.
-                            If the answer isn't in your notes, it tells you honestly.
-                        </p>
+                        <div className="space-y-4 text-muted-foreground font-light leading-relaxed">
+                            <p>
+                                AskMyNotes is a <strong className="text-primary font-medium">subject-scoped AI study copilot</strong> that
+                                uses Retrieval-Augmented Generation (RAG) to answer questions strictly from your uploaded notes.
+                            </p>
+                            <p>
+                                Unlike general AI chatbots, AskMyNotes <strong className="text-foreground font-medium">never makes things up</strong>.
+                                Every answer is grounded in your material with confidence levels and exact citations.
+                                If the answer isn't in your notes, it tells you honestly.
+                            </p>
+                        </div>
                     </div>
 
                     {/* RAG Pipeline */}
-                    <h2 className="font-cyber text-base font-bold tracking-wider text-foreground mb-6 text-center">
-                        How <span className="text-gradient-cyan">RAG</span> Works
-                    </h2>
-                    <div className="grid gap-4 mb-12">
+                    <div className="text-center mb-8">
+                        <h2 className="text-2xl font-semibold tracking-tight text-foreground">
+                            How <span className="text-primary">RAG</span> Works
+                        </h2>
+                    </div>
+                    <div className="grid gap-3 mb-16">
                         {ragSteps.map((item, i) => (
-                            <div key={i} className="flex items-center gap-4 p-4 rounded-lg glass-panel cyber-border group hover:scale-[1.01] transition-all">
-                                <div className="w-10 h-10 rounded-lg bg-[hsl(185,100%,50%,0.1)] flex items-center justify-center flex-shrink-0">
-                                    <span className="font-cyber text-sm font-bold text-[hsl(185,100%,50%)]">{item.step}</span>
+                            <div key={i} className="flex items-center gap-5 p-4 rounded-xl bg-white/5 border border-white/5 backdrop-blur-md group hover:border-white/10 transition-all">
+                                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                                    <span className="text-sm font-bold text-primary">{item.step}</span>
                                 </div>
-                                <div>
-                                    <span className="font-cyber text-xs font-bold tracking-wider text-foreground">{item.title}</span>
-                                    <span className="font-body text-sm text-[hsl(200,15%,50%)] ml-2">— {item.desc}</span>
+                                <div className="flex-1">
+                                    <span className="text-sm font-semibold tracking-wide text-foreground">{item.title}</span>
+                                    <span className="text-sm text-muted-foreground font-light ml-2">— {item.desc}</span>
                                 </div>
                                 {i < ragSteps.length - 1 && (
-                                    <div className="ml-auto text-[hsl(185,100%,50%,0.3)]">→</div>
+                                    <div className="text-white/20 px-2 opacity-0 group-hover:opacity-100 transition-opacity">↓</div>
                                 )}
                             </div>
                         ))}
                     </div>
 
                     {/* Tech Stack */}
-                    <h2 className="font-cyber text-base font-bold tracking-wider text-foreground mb-6 text-center">
-                        Tech <span className="text-gradient">Stack</span>
-                    </h2>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-12">
+                    <div className="text-center mb-8">
+                        <h2 className="text-2xl font-semibold tracking-tight text-foreground">
+                            Tech <span className="text-primary">Stack</span>
+                        </h2>
+                    </div>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-16">
                         {techStack.map((tech, i) => {
                             const Icon = tech.icon;
-                            const isCyan = tech.color === "cyan";
-                            const borderCol = isCyan ? "hsl(185,100%,50%,0.15)" : "hsl(325,100%,50%,0.15)";
-                            const iconCol = isCyan ? "text-[hsl(185,100%,50%)]" : "text-[hsl(325,100%,50%)]";
 
                             return (
                                 <div
                                     key={i}
-                                    className="p-5 rounded-xl glass-panel border text-center hover:scale-[1.03] transition-all duration-300"
-                                    style={{ borderColor: borderCol }}
+                                    className="p-6 rounded-2xl bg-white/5 border border-white/5 backdrop-blur-md text-center hover:border-white/10 transition-all duration-300"
                                 >
-                                    <Icon className={`w-8 h-8 mx-auto mb-3 ${iconCol}`} />
-                                    <div className="font-cyber text-xs font-bold tracking-wider text-foreground mb-1">{tech.name}</div>
-                                    <div className="font-body text-xs text-[hsl(200,15%,45%)]">{tech.desc}</div>
+                                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                                        <Icon className="w-6 h-6 text-primary" />
+                                    </div>
+                                    <div className="text-sm font-semibold tracking-wide text-foreground mb-1">{tech.name}</div>
+                                    <div className="text-xs text-muted-foreground font-light">{tech.desc}</div>
                                 </div>
                             );
                         })}
                     </div>
 
                     {/* Creator */}
-                    <div className="glass-panel cyber-border rounded-xl p-8 text-center">
-                        <Globe className="w-8 h-8 text-[hsl(185,100%,50%)] mx-auto mb-3" />
-                        <h3 className="font-cyber text-sm font-bold tracking-wider text-foreground mb-2">Built By</h3>
-                        <p className="font-body text-[hsl(200,15%,55%)]">Ayush Kumar</p>
-                        <p className="font-body text-xs text-[hsl(200,15%,40%)] mt-1">VEDAM Hackathon 2026</p>
+                    <div className="bg-white/5 border border-white/5 backdrop-blur-xl rounded-2xl p-8 text-center max-w-md mx-auto">
+                        <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                            <Globe className="w-6 h-6 text-primary" />
+                        </div>
+                        <h3 className="text-base font-semibold tracking-wide text-foreground mb-1">Built By</h3>
+                        <p className="text-muted-foreground font-light">Ayush Kumar</p>
+                        <p className="text-xs text-white/40 mt-2 font-light">VEDAM Hackathon 2026</p>
                     </div>
                 </div>
             </section>

@@ -56,8 +56,8 @@ export function FileManager() {
   };
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="px-6 py-4 border-b border-border glass-panel">
+    <div className="flex flex-col h-full bg-background/30">
+      <div className="px-6 py-5 border-b border-white/5 bg-background/50 backdrop-blur-xl">
         <div className="flex items-center gap-2">
           <span className="text-xl">{subject.icon}</span>
           <h2 className="font-semibold text-foreground">{subject.name} — Notes</h2>
@@ -72,7 +72,7 @@ export function FileManager() {
         <div
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
-          className="border-2 border-dashed border-primary/30 rounded-2xl p-10 text-center hover:border-primary/60 transition-colors cursor-pointer mb-6"
+          className="border border-dashed border-primary/30 rounded-2xl p-10 text-center hover:border-primary/60 transition-colors cursor-pointer mb-6 bg-white/5 backdrop-blur-md"
           onClick={() => document.getElementById("file-input")?.click()}
         >
           <input
@@ -98,7 +98,7 @@ export function FileManager() {
               initial={{ opacity: 0, x: -16 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 16 }}
-              className="flex items-center gap-3 px-4 py-3 bg-card rounded-xl border border-border mb-2"
+              className="flex items-center gap-3 px-4 py-3 bg-white/5 backdrop-blur-md rounded-xl border border-white/5 mb-2 hover:border-white/10 transition-colors"
             >
               <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                 {file.type === "pdf" ? (

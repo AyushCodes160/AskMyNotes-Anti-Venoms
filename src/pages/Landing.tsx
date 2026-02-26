@@ -4,76 +4,83 @@ import { Upload, MessageSquare, BookOpen, Zap, ArrowRight, Brain, FileText, Grad
 
 export default function Landing() {
     return (
-        <div className="min-h-screen bg-background cyber-grid scan-lines">
+        <div className="min-h-screen bg-background text-foreground">
             <Navbar />
 
             {/* Hero Section */}
-            <section className="relative pt-32 pb-20 px-6 overflow-hidden">
-                {/* Glow orbs */}
-                <div className="absolute top-20 left-1/4 w-[400px] h-[400px] bg-[hsl(185,100%,50%,0.06)] rounded-full blur-[100px] animate-pulse-slow" />
-                <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] bg-[hsl(325,100%,50%,0.05)] rounded-full blur-[80px] animate-pulse-slow" />
+            <section className="relative pt-32 pb-20 px-6 min-h-[90vh] flex items-center justify-center overflow-hidden">
+                {/* Cinematic Ambient Glow (Amber/Orange) */}
+                <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px] pointer-events-none mix-blend-screen" />
+                <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-primary/10 rounded-full blur-[100px] pointer-events-none mix-blend-screen" />
 
-                <div className="max-w-5xl mx-auto text-center relative z-10">
-                    {/* Badge */}
-                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full cyber-border mb-8 animate-float">
-                        <Zap className="w-3.5 h-3.5 text-[hsl(185,100%,50%)]" />
-                        <span className="text-xs font-cyber font-medium tracking-widest uppercase text-[hsl(185,100%,50%)]">
-                            AI-Powered Study Copilot
-                        </span>
+                <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 items-center relative z-10">
+
+                    {/* Left Side - Glassmorphic Aesthetic Visuals */}
+                    <div className="order-2 lg:order-1 relative h-[500px] flex items-center justify-center">
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-[2rem] border border-white/5 overflow-hidden">
+                            {/* Abstract UI Elements to mimic Dribbble Design */}
+                            <div className="absolute top-8 right-8 text-muted-foreground/50 text-xs">
+                                Upload your study materials, shape knowledge with ease,<br />
+                                and bring clarity to life through a workspace that<br />
+                                stays quiet while you think loud.
+                            </div>
+
+                            {/* Floating Glass Widget 1 */}
+                            <div className="absolute top-1/2 left-8 -translate-y-1/2 w-64 glass-card p-4 rounded-2xl flex flex-col gap-3">
+                                <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
+                                    <Brain className="w-3.5 h-3.5" /> AI Analysis
+                                </div>
+                                <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+                                    <div className="h-full w-2/3 bg-primary rounded-full"></div>
+                                </div>
+                                <div className="h-2 w-4/5 bg-white/10 rounded-full"></div>
+                                <div className="h-2 w-1/2 bg-white/10 rounded-full"></div>
+                            </div>
+
+                            {/* Floating Glass Widget 2 */}
+                            <div className="absolute bottom-12 right-12 w-72 glass-card p-4 rounded-2xl">
+                                <div className="flex items-center justify-between mb-2">
+                                    <div className="text-xs text-muted-foreground flex items-center gap-2">
+                                        <FileText className="w-3.5 h-3.5" /> Processing PDF
+                                    </div>
+                                    <div className="text-[10px] text-primary">100%</div>
+                                </div>
+                                <div className="flex items-end gap-1 h-8">
+                                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(i => (
+                                        <div key={i} className={`flex-1 rounded-t-sm ${i % 3 === 0 ? 'bg-primary' : 'bg-white/20'}`} style={{ height: `${Math.random() * 100}%` }}></div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    {/* Title */}
-                    <h1 className="font-cyber text-5xl md:text-7xl font-black mb-6 leading-tight">
-                        <span className="text-gradient glow-text-cyan">ASK</span>
-                        <span className="text-foreground">MY</span>
-                        <span className="text-gradient glow-text-cyan">NOTES</span>
-                    </h1>
+                    {/* Right Side - Massive Typography */}
+                    <div className="order-1 lg:order-2 flex flex-col items-start text-left">
+                        <h1 className="text-5xl md:text-6xl lg:text-7xl font-semibold tracking-[-0.03em] leading-[1.05] text-white mb-8">
+                            AI-powered studying,<br />
+                            redefined for the next<br />
+                            generation.
+                        </h1>
 
-                    {/* Subtitle */}
-                    <p className="font-body text-lg md:text-xl text-[hsl(200,15%,55%)] max-w-2xl mx-auto mb-10 leading-relaxed">
-                        Upload your notes. Ask anything. Get <span className="text-[hsl(185,100%,50%)]">grounded answers</span> with
-                        citations — powered by AI that reads <span className="text-[hsl(325,100%,50%)]">only your material</span>.
-                    </p>
+                        <p className="text-lg text-muted-foreground max-w-lg mb-10 leading-relaxed font-light">
+                            Our workspace redefines your workflow — intuitive, atmospheric, and built for
+                            focus. No clutter. No friction. Just you and your notes, flowing at your pace.
+                        </p>
 
-                    {/* CTA Buttons */}
-                    <div className="flex items-center justify-center gap-4 mb-20">
-                        <Link to="/app" className="btn-neon-fill rounded-lg flex items-center gap-2">
-                            Launch App <ArrowRight className="w-4 h-4" />
-                        </Link>
-                        <Link to="/how-to-use" className="btn-neon rounded-lg">
-                            How It Works
-                        </Link>
+                        <div className="flex items-center gap-4">
+                            <Link to="/app">
+                                <button className="btn-dribbble text-xs tracking-wider uppercase flex items-center gap-2">
+                                    Get Started
+                                </button>
+                            </Link>
+                        </div>
                     </div>
 
-                    {/* Feature Cards */}
-                    <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                        <FeatureCard
-                            icon={FileText}
-                            title="Upload Notes"
-                            description="Drop your PDFs and text files. We extract, chunk, and index every page."
-                            color="cyan"
-                            step="01"
-                        />
-                        <FeatureCard
-                            icon={Brain}
-                            title="Ask Questions"
-                            description="Ask anything about your notes. AI finds the exact answer with citations."
-                            color="magenta"
-                            step="02"
-                        />
-                        <FeatureCard
-                            icon={GraduationCap}
-                            title="Study Smart"
-                            description="Generate MCQs & short answers from your notes. Study mode activated."
-                            color="cyan"
-                            step="03"
-                        />
-                    </div>
                 </div>
             </section>
 
             {/* Stats Section */}
-            <section className="py-16 px-6 border-t border-[hsl(185,100%,50%,0.08)]">
+            <section className="py-20 px-6 border-t border-border bg-secondary/30">
                 <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                     <StatCard value="3" label="Subjects Max" />
                     <StatCard value="PDF" label="& TXT Support" />
@@ -83,8 +90,8 @@ export default function Landing() {
             </section>
 
             {/* Footer */}
-            <footer className="py-8 px-6 border-t border-[hsl(185,100%,50%,0.08)] text-center">
-                <p className="text-xs font-cyber tracking-wider text-[hsl(200,15%,35%)]">
+            <footer className="py-8 px-6 border-t border-border/40 text-center">
+                <p className="text-sm text-muted-foreground font-medium">
                     Built for VEDAM Hackathon 2026 — AskMyNotes
                 </p>
             </footer>
@@ -92,34 +99,11 @@ export default function Landing() {
     );
 }
 
-function FeatureCard({ icon: Icon, title, description, color, step }: {
-    icon: any; title: string; description: string; color: "cyan" | "magenta"; step: string;
-}) {
-    const glowClass = color === "cyan" ? "glow-cyan" : "glow-magenta";
-    const borderColor = color === "cyan" ? "hsl(185,100%,50%,0.2)" : "hsl(325,100%,50%,0.2)";
-    const iconColor = color === "cyan" ? "text-[hsl(185,100%,50%)]" : "text-[hsl(325,100%,50%)]";
-    const stepColor = color === "cyan" ? "text-[hsl(185,100%,50%,0.15)]" : "text-[hsl(325,100%,50%,0.15)]";
-
-    return (
-        <div
-            className={`relative p-6 rounded-xl glass-panel border transition-all duration-500 hover:scale-[1.03] hover:${glowClass} group`}
-            style={{ borderColor }}
-        >
-            <div className={`absolute top-3 right-4 font-cyber text-3xl font-black ${stepColor}`}>{step}</div>
-            <div className={`w-12 h-12 rounded-lg bg-[${borderColor}] flex items-center justify-center mb-4`}>
-                <Icon className={`w-6 h-6 ${iconColor}`} />
-            </div>
-            <h3 className="font-cyber text-sm font-bold tracking-wider mb-2 text-foreground">{title}</h3>
-            <p className="font-body text-sm text-[hsl(200,15%,50%)] leading-relaxed">{description}</p>
-        </div>
-    );
-}
-
 function StatCard({ value, label }: { value: string; label: string }) {
     return (
-        <div>
-            <div className="font-cyber text-2xl font-black text-gradient-cyan mb-1">{value}</div>
-            <div className="font-body text-xs tracking-wider text-[hsl(200,15%,45%)] uppercase">{label}</div>
+        <div className="flex flex-col items-center justify-center space-y-2">
+            <div className="text-4xl font-bold text-white">{value}</div>
+            <div className="text-xs tracking-wider text-muted-foreground uppercase">{label}</div>
         </div>
     );
 }

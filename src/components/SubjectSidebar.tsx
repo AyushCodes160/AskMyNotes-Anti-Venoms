@@ -23,12 +23,12 @@ export function SubjectSidebar() {
   };
 
   return (
-    <aside className="w-64 bg-sidebar border-r border-sidebar-border flex flex-col h-full">
+    <aside className="w-64 bg-background/50 border-r border-white/5 flex flex-col h-full backdrop-blur-xl">
       {/* Logo */}
-      <div className="p-5 border-b border-sidebar-border">
+      <div className="p-5 border-b border-white/5">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-            <BookOpen className="w-4 h-4 text-primary-foreground" />
+          <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center overflow-hidden">
+            <img src="/logo.jpeg" className="w-full h-full object-cover" alt="AskMyNotes Logo" />
           </div>
           <div>
             <h1 className="text-sm font-bold text-sidebar-foreground">AskMyNotes</h1>
@@ -92,9 +92,9 @@ export function SubjectSidebar() {
               >
                 <button
                   onClick={() => setActiveSubject(subject.id)}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-all ${activeSubjectId === subject.id
-                      ? "bg-sidebar-accent text-sidebar-primary font-medium"
-                      : "text-sidebar-foreground hover:bg-sidebar-accent/50"
+                  className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-all border border-transparent ${activeSubjectId === subject.id
+                    ? "bg-primary/10 text-primary font-medium border-primary/20"
+                    : "text-muted-foreground hover:bg-white/5 hover:text-foreground hover:border-white/5"
                     }`}
                 >
                   <span className="text-base">{subject.icon}</span>
@@ -128,7 +128,7 @@ export function SubjectSidebar() {
       </div>
 
       {/* Views */}
-      <div className="p-3 border-t border-sidebar-border">
+      <div className="p-3 border-t border-white/5">
         <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-2 px-2">
           Tools
         </p>
@@ -138,8 +138,8 @@ export function SubjectSidebar() {
               key={view.id}
               onClick={() => setActiveView(view.id)}
               className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-all ${activeView === view.id
-                  ? "bg-sidebar-accent text-sidebar-primary font-medium"
-                  : "text-sidebar-foreground hover:bg-sidebar-accent/50"
+                ? "bg-primary/10 text-primary font-medium border border-primary/20"
+                : "text-sidebar-foreground hover:bg-sidebar-accent/50"
                 }`}
             >
               <view.icon className="w-4 h-4" />

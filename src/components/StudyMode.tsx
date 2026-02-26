@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useApp } from "@/contexts/AppContext";
-import { GraduationCap, Sparkles, CheckCircle2, ChevronDown, ChevronUp, FileText } from "lucide-react";
+import { GraduationCap, Sparkles, CheckCircle2, XCircle, ChevronDown, ChevronUp, FileText } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function StudyMode() {
@@ -20,13 +20,13 @@ export function StudyMode() {
   };
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="px-6 py-4 border-b border-border glass-panel">
-        <div className="flex items-center gap-2">
+    <div className="flex flex-col h-full bg-background/30">
+      <div className="px-6 py-5 border-b border-white/5 bg-background/50 backdrop-blur-xl">
+        <div className="flex items-center gap-3">
           <GraduationCap className="w-5 h-5 text-primary" />
-          <h2 className="font-semibold text-foreground">Study Mode — {subject.name}</h2>
+          <h2 className="font-semibold text-foreground tracking-tight">Study Mode — {subject.name}</h2>
         </div>
-        <p className="text-xs text-muted-foreground mt-0.5">
+        <p className="text-xs text-muted-foreground mt-1">
           Generate explanations, MCQs, and short questions from your notes
         </p>
       </div>
@@ -39,12 +39,15 @@ export function StudyMode() {
             onChange={(e) => setTopic(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleGenerate()}
             placeholder="Enter topic (e.g., Binary Search, Normalization)..."
-            className="flex-1 bg-secondary rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+            className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary/50 focus:bg-white/10 transition-all font-light"
           />
           <button
             onClick={handleGenerate}
             disabled={!topic.trim() || isLoading}
-            className="bg-primary text-primary-foreground rounded-xl px-5 py-3 text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-40 flex items-center gap-2"
+            className={`rounded-xl px-5 py-3 flex items-center gap-2 transition-all text-sm font-medium ${!topic.trim() || isLoading
+              ? "bg-white/5 text-muted-foreground cursor-not-allowed border border-white/5"
+              : "bg-primary text-primary-foreground shadow-[0_0_15px_rgba(245,158,11,0.3)] hover:scale-105"
+              }`}
           >
             <Sparkles className="w-4 h-4" />
             Generate
@@ -65,7 +68,7 @@ export function StudyMode() {
         {studyMaterial && !isLoading && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
             {/* Explanation */}
-            <div className="bg-card border border-border rounded-2xl p-5">
+            <div className="bg-white/5 border border-white/5 backdrop-blur-md rounded-2xl p-5">
               <h3 className="text-sm font-bold text-foreground flex items-center gap-2 mb-3">
                 📖 Topic: {studyMaterial.topic}
               </h3>
@@ -75,11 +78,11 @@ export function StudyMode() {
             </div>
 
             {/* MCQs */}
-            <div className="bg-card border border-border rounded-2xl p-5">
+            <div className="bg-white/5 border border-white/5 backdrop-blur-md rounded-2xl p-5">
               <h3 className="text-sm font-bold text-foreground mb-4">🧠 Multiple Choice Questions</h3>
               <div className="space-y-5">
                 {studyMaterial.mcqs.map((mcq, qi) => (
-                  <div key={qi} className="bg-muted rounded-xl p-4">
+                  <div key={qi} className="bg-black/20 border border-white/5 rounded-lg p-3 text-[11px]">
                     <p className="text-sm font-medium text-foreground mb-3">
                       Q{qi + 1}. {mcq.question}
                     </p>
@@ -95,20 +98,22 @@ export function StudyMode() {
                               setSelectedAnswers((prev) => ({ ...prev, [qi]: oi }))
                             }
                             disabled={answered}
-                            className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all border ${
-                              answered && isCorrect
-                                ? "bg-confidence-high/20 border-confidence-high text-foreground"
-                                : answered && selected && !isCorrect
-                                ? "bg-destructive/20 border-destructive text-foreground"
+                            className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all border ${answered && isCorrect
+                              ? "bg-confidence-high/20 border-confidence-high text-foreground"
+                              : answered && selected && !isCorrect
+                                ? "bg-destructive/10 border-destructive/50 text-destructive"
                                 : selected
-                                ? "border-primary bg-primary/10 text-foreground"
-                                : "border-transparent bg-background hover:bg-secondary text-foreground"
-                            }`}
+                                  ? "border-primary bg-primary/10 text-foreground"
+                                  : "border-transparent bg-background hover:bg-white/5 text-foreground"
+                              }`}
                           >
                             <span className="font-medium mr-2">{String.fromCharCode(65 + oi)}.</span>
                             {opt}
                             {answered && isCorrect && (
                               <CheckCircle2 className="w-4 h-4 text-confidence-high inline ml-2" />
+                            )}
+                            {answered && selected && !isCorrect && (
+                              <XCircle className="w-4 h-4 text-destructive inline ml-2" />
                             )}
                           </button>
                         );
@@ -129,7 +134,7 @@ export function StudyMode() {
             </div>
 
             {/* Short Questions */}
-            <div className="bg-card border border-border rounded-2xl p-5">
+            <div className="bg-white/5 border border-white/5 backdrop-blur-md rounded-2xl p-5">
               <h3 className="text-sm font-bold text-foreground mb-4">✍️ Short Answer Questions</h3>
               <div className="space-y-3">
                 {studyMaterial.shortQuestions.map((sq, i) => (
@@ -169,7 +174,7 @@ export function StudyMode() {
             </div>
 
             {/* Citations */}
-            <div className="bg-card border border-border rounded-2xl p-5">
+            <div className="bg-white/5 border border-white/5 backdrop-blur-md rounded-2xl p-5">
               <h3 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
                 <FileText className="w-4 h-4 text-primary" />
                 Sources from your notes

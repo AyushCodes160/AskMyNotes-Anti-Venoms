@@ -64,6 +64,21 @@ async def upload_files(
         
     return {"subject_id": subject_id, "files": file_info, "status": "success"}
 
+@app.delete("/file")
+async def delete_file(
+    subject_id: str = Form(...),
+    file_name: str = Form(...)
+):
+    try:
+        deleted_count = vector_store.delete_file(subject_id, file_name)
+        return {
+            "status": "success",
+            "message": f"Deleted {deleted_count} chunks for {file_name}",
+            "chunks_removed": deleted_count
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.post("/chat")
 async def chat(
     subject_id: str = Form(...),

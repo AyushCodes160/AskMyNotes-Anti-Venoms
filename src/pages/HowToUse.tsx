@@ -57,69 +57,57 @@ const steps = [
 
 export default function HowToUse() {
     return (
-        <div className="min-h-screen bg-background cyber-grid scan-lines">
+        <div className="min-h-screen bg-background flex flex-col pt-16">
             <Navbar />
 
             <section className="pt-28 pb-20 px-6">
                 <div className="max-w-4xl mx-auto">
                     {/* Header */}
                     <div className="text-center mb-16">
-                        <h1 className="font-cyber text-3xl md:text-4xl font-black mb-4">
-                            <span className="text-gradient">How to Use</span>
+                        <h1 className="text-4xl md:text-5xl font-semibold tracking-[-0.03em] leading-tight text-white mb-4">
+                            How to Use
                         </h1>
-                        <p className="font-body text-lg text-[hsl(200,15%,50%)] max-w-xl mx-auto">
+                        <p className="text-lg text-muted-foreground font-light max-w-xl mx-auto">
                             Get started in 4 simple steps. Upload your notes and let AI do the heavy lifting.
                         </p>
                     </div>
 
                     {/* Steps */}
-                    <div className="space-y-8">
+                    <div className="space-y-6">
                         {steps.map((step, i) => {
                             const Icon = step.icon;
-                            const isCyan = step.color === "cyan";
-                            const borderCol = isCyan ? "hsl(185,100%,50%,0.2)" : "hsl(325,100%,50%,0.2)";
-                            const iconCol = isCyan ? "text-[hsl(185,100%,50%)]" : "text-[hsl(325,100%,50%)]";
-                            const numCol = isCyan ? "text-[hsl(185,100%,50%,0.12)]" : "text-[hsl(325,100%,50%,0.12)]";
 
                             return (
                                 <div
                                     key={i}
-                                    className="relative p-8 rounded-xl glass-panel border transition-all duration-500 hover:scale-[1.01] group"
-                                    style={{ borderColor: borderCol }}
+                                    className="relative p-8 rounded-2xl bg-white/5 border border-white/5 backdrop-blur-xl transition-all duration-300 hover:border-white/10 group"
                                 >
                                     {/* Step number watermark */}
-                                    <div className={`absolute top-4 right-6 font-cyber text-6xl font-black ${numCol}`}>
+                                    <div className="absolute top-4 right-6 text-6xl font-bold text-white/5">
                                         {step.number}
                                     </div>
 
-                                    <div className="flex gap-5 items-start">
-                                        <div className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0"
-                                            style={{ background: `${borderCol}` }}>
-                                            <Icon className={`w-7 h-7 ${iconCol}`} />
+                                    <div className="flex gap-6 items-start">
+                                        <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                                            <Icon className="w-6 h-6 text-primary" />
                                         </div>
                                         <div className="flex-1">
-                                            <h3 className="font-cyber text-base font-bold tracking-wider mb-2 text-foreground">
+                                            <h3 className="text-lg font-semibold tracking-wide text-foreground mb-2">
                                                 {step.title}
                                             </h3>
-                                            <p className="font-body text-[hsl(200,15%,55%)] mb-4 leading-relaxed">
+                                            <p className="text-muted-foreground font-light mb-5 leading-relaxed">
                                                 {step.description}
                                             </p>
-                                            <ul className="space-y-2">
+                                            <ul className="space-y-3">
                                                 {step.details.map((detail, j) => (
-                                                    <li key={j} className="flex items-center gap-2 text-sm font-body text-[hsl(200,15%,50%)]">
-                                                        <CheckCircle2 className={`w-3.5 h-3.5 flex-shrink-0 ${iconCol}`} />
+                                                    <li key={j} className="flex items-center gap-3 text-sm text-foreground/80 font-light">
+                                                        <CheckCircle2 className="w-4 h-4 text-primary shrink-0 opacity-80" />
                                                         {detail}
                                                     </li>
                                                 ))}
                                             </ul>
                                         </div>
                                     </div>
-
-                                    {/* Connector line */}
-                                    {i < steps.length - 1 && (
-                                        <div className="absolute -bottom-8 left-12 w-[2px] h-8"
-                                            style={{ background: `linear-gradient(to bottom, ${borderCol}, transparent)` }} />
-                                    )}
                                 </div>
                             );
                         })}
@@ -127,7 +115,7 @@ export default function HowToUse() {
 
                     {/* CTA */}
                     <div className="text-center mt-16">
-                        <Link to="/app" className="btn-neon-fill rounded-lg inline-flex items-center gap-2">
+                        <Link to="/app" className="btn-dribbble text-xs tracking-wider uppercase inline-flex items-center gap-2">
                             Start Studying <ArrowRight className="w-4 h-4" />
                         </Link>
                     </div>

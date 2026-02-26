@@ -124,6 +124,24 @@ class VectorStoreManager:
         self._persist()
         print(f"[VectorStore] Indexed {len(chunks)} chunks for subject {subject_id} from {file_name}")
 
+    def delete_file(self, subject_id: str, file_name: str) -> int:
+        """Deletes all chunks associated with a specific file from a subject."""
+        if subject_id not in _store:
+            return 0
+        
+        initial_count = len(_store[subject_id])
+        _store[subject_id] = [
+            chunk for chunk in _store[subject_id] 
+            if chunk.get("metadata", {}).get("filename") != file_name
+        ]
+        deleted_count = initial_count - len(_store[subject_id])
+        
+        if deleted_count > 0:
+            self._persist()
+            print(f"[VectorStore] Deleted {deleted_count} chunks for file {file_name} from subject {subject_id}")
+            
+        return deleted_count
+
     def search(self, subject_id: str, query: str, n_results: int = 8) -> List[Dict]:
         if subject_id not in _store or not _store[subject_id]:
             return []

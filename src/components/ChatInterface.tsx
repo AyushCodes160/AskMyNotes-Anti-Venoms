@@ -79,9 +79,9 @@ function MessageBubble({ message }: { message: ChatMessage }) {
       className={`flex ${isUser ? "justify-end" : "justify-start"} mb-4`}
     >
       <div
-        className={`max-w-[80%] rounded-2xl px-4 py-3 ${isUser
-          ? "bg-primary text-primary-foreground rounded-br-md"
-          : "bg-card border border-border rounded-bl-md"
+        className={`max-w-[80%] rounded-2xl px-5 py-4 ${isUser
+          ? "bg-primary/10 border border-primary/20 text-white rounded-br-md"
+          : "bg-white/5 border border-white/5 backdrop-blur-md rounded-bl-md"
           }`}
       >
         {message.notFound && (
@@ -106,7 +106,7 @@ function MessageBubble({ message }: { message: ChatMessage }) {
               title={isSpeaking ? "Stop speaking" : "Read aloud"}
             >
               {isSpeaking ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
-              <span className="font-cyber text-[9px] tracking-wider">{isSpeaking ? "STOP" : "SPEAK"}</span>
+              <span className="text-[10px] uppercase font-bold tracking-wider">{isSpeaking ? "STOP" : "SPEAK"}</span>
             </button>
           </div>
         )}
@@ -225,13 +225,15 @@ export function ChatInterface() {
   if (!subject) return null;
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full bg-background/30">
       {/* Header */}
-      <div className="px-6 py-4 border-b border-border glass-panel">
-        <div className="flex items-center gap-2">
-          <span className="text-xl">{subject.icon}</span>
-          <h2 className="font-semibold text-foreground">{subject.name}</h2>
-          <span className="text-xs text-muted-foreground">· {subject.files.length} notes loaded</span>
+      <div className="px-6 py-5 border-b border-white/5 bg-background/50 backdrop-blur-xl">
+        <div className="flex items-center gap-3 mb-1">
+          <span className="text-2xl">{subject.icon}</span>
+          <h2 className="font-semibold text-foreground tracking-tight">{subject.name}</h2>
+          <span className="text-xs text-muted-foreground ml-2 px-2 py-0.5 rounded-full bg-white/5 border border-white/5">
+            {subject.files.length} notes loaded
+          </span>
         </div>
         <p className="text-xs text-muted-foreground mt-0.5">
           Ask anything — answers grounded in your notes only · 🎤 Voice enabled
@@ -265,7 +267,7 @@ export function ChatInterface() {
 
         {isLoading && (
           <div className="flex justify-start mb-4">
-            <div className="bg-card border border-border rounded-2xl rounded-bl-md">
+            <div className="bg-white/5 border border-white/5 backdrop-blur-md rounded-2xl rounded-bl-md">
               <TypingIndicator />
             </div>
           </div>
@@ -275,8 +277,8 @@ export function ChatInterface() {
       </div>
 
       {/* Input */}
-      <div className="px-6 py-4 border-t border-border glass-panel">
-        <div className="flex gap-2">
+      <div className="px-6 py-5 border-t border-white/5 bg-background/50 backdrop-blur-xl">
+        <div className="flex gap-3">
           {/* Mic button */}
           <button
             onClick={isListening ? stopListening : startListening}
@@ -294,18 +296,21 @@ export function ChatInterface() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSend()}
             placeholder={isListening ? "🎤 Listening..." : `Ask about ${subject.name}...`}
-            className="flex-1 bg-secondary rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+            className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary/50 focus:bg-white/10 transition-all font-light"
           />
           <button
             onClick={handleSend}
             disabled={!input.trim() || isLoading}
-            className="bg-primary text-primary-foreground rounded-xl px-4 py-3 hover:opacity-90 transition-opacity disabled:opacity-40"
+            className={`rounded-xl px-4 flex items-center justify-center transition-all ${!input.trim() || isLoading
+              ? "bg-white/5 text-muted-foreground cursor-not-allowed border border-white/5"
+              : "bg-primary text-primary-foreground shadow-[0_0_15px_rgba(245,158,11,0.3)] hover:scale-105"
+              }`}
           >
             <Send className="w-4 h-4" />
           </button>
         </div>
         {isListening && (
-          <p className="text-xs text-red-400 mt-2 font-cyber tracking-wider animate-pulse text-center">
+          <p className="text-xs text-red-500 mt-2 tracking-wider animate-pulse text-center font-medium">
             ● RECORDING — Speak your question, it will auto-send when done
           </p>
         )}

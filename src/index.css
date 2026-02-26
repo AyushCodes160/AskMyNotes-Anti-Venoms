@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,84 +6,98 @@
 
 @layer base {
   :root {
-    --background: 230 15% 8%;
-    --foreground: 200 20% 90%;
-    --card: 230 18% 12%;
-    --card-foreground: 200 20% 90%;
-    --popover: 230 18% 12%;
-    --popover-foreground: 200 20% 90%;
-    --primary: 185 100% 50%;
-    --primary-foreground: 230 15% 5%;
-    --secondary: 230 20% 16%;
-    --secondary-foreground: 200 20% 85%;
-    --muted: 230 20% 16%;
-    --muted-foreground: 200 10% 50%;
-    --accent: 325 100% 50%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 230 20% 18%;
-    --input: 230 20% 18%;
-    --ring: 185 100% 50%;
-    --radius: 0.5rem;
+    /* Forcing default theme to be the dark Dribbble theme since the design is exclusively dark */
+    --background: 0 0% 4%;
+    /* #0A0A0A */
+    --foreground: 0 0% 98%;
 
-    --sidebar-background: 230 20% 6%;
-    --sidebar-foreground: 200 15% 75%;
-    --sidebar-primary: 185 100% 50%;
-    --sidebar-primary-foreground: 230 15% 5%;
-    --sidebar-accent: 230 22% 14%;
-    --sidebar-accent-foreground: 200 15% 80%;
-    --sidebar-border: 230 20% 15%;
-    --sidebar-ring: 185 100% 50%;
+    /* Surfaces */
+    --card: 0 0% 6%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 6%;
+    --popover-foreground: 0 0% 98%;
 
-    --confidence-high: 152 69% 45%;
-    --confidence-medium: 45 100% 55%;
-    --confidence-low: 0 72% 55%;
-    --chat-user: 185 100% 50%;
-    --chat-ai: 230 22% 13%;
-    --glass: 230 20% 10% / 0.75;
+    /* The core amber/orange accent */
+    --primary: 38 92% 50%;
+    /* #f59e0b */
+    --primary-foreground: 0 0% 9%;
 
-    --neon-cyan: 185 100% 50%;
-    --neon-magenta: 325 100% 50%;
-    --neon-purple: 270 100% 65%;
-    --neon-green: 150 100% 50%;
+    /* Destructive/Error states */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    /* Muted elements */
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 240 5% 65%;
+    /* zinc-400 */
+
+    /* Borders and inputs - extremely subtle */
+    --border: 0 0% 15%;
+    --input: 0 0% 12%;
+    --ring: 38 92% 50%;
+
+    --radius: 1rem;
+
+    /* Sidebar - keeping it integrated with the dark background */
+    --sidebar-background: 0 0% 6%;
+    --sidebar-foreground: 240 5% 75%;
+    --sidebar-primary: 38 92% 50%;
+    --sidebar-primary-foreground: 0 0% 10%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 0 0% 12%;
+    --sidebar-ring: 38 92% 50%;
+
+    /* Confidence states */
+    --confidence-high: 142 71% 45%;
+    --confidence-medium: 38 92% 50%;
+    --confidence-low: 348 83% 58%;
+
+    /* Chat bubbles */
+    --chat-user: 0 0% 15%;
+    --chat-ai: 0 0% 6%;
+
+    /* Frosted glass alpha */
+    --glass: 0 0% 4% / 0.6;
   }
 
   .dark {
-    --background: 230 15% 8%;
-    --foreground: 200 20% 90%;
-    --card: 230 18% 12%;
-    --card-foreground: 200 20% 90%;
-    --popover: 230 18% 12%;
-    --popover-foreground: 200 20% 90%;
-    --primary: 185 100% 50%;
-    --primary-foreground: 230 15% 5%;
-    --secondary: 230 20% 16%;
-    --secondary-foreground: 200 20% 85%;
-    --muted: 230 20% 16%;
-    --muted-foreground: 200 10% 50%;
-    --accent: 325 100% 50%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 62% 40%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 230 20% 18%;
-    --input: 230 20% 18%;
-    --ring: 185 100% 50%;
-    --sidebar-background: 230 20% 5%;
-    --sidebar-foreground: 200 15% 75%;
-    --sidebar-primary: 185 100% 50%;
-    --sidebar-primary-foreground: 230 15% 5%;
-    --sidebar-accent: 230 22% 12%;
-    --sidebar-accent-foreground: 200 15% 80%;
-    --sidebar-border: 230 20% 14%;
-    --sidebar-ring: 185 100% 50%;
+    /* Mirroring the root since this design is dark-only */
+    --background: 0 0% 4%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 6%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 6%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 38 92% 50%;
+    --primary-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 240 5% 65%;
+    --border: 0 0% 15%;
+    --input: 0 0% 12%;
+    --ring: 38 92% 50%;
 
-    --confidence-high: 152 69% 45%;
-    --confidence-medium: 45 100% 55%;
-    --confidence-low: 0 72% 55%;
-    --chat-user: 185 100% 50%;
-    --chat-ai: 230 22% 13%;
-    --glass: 230 20% 10% / 0.75;
+    --sidebar-background: 0 0% 6%;
+    --sidebar-foreground: 240 5% 75%;
+    --sidebar-primary: 38 92% 50%;
+    --sidebar-primary-foreground: 0 0% 10%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 0 0% 12%;
+    --sidebar-ring: 38 92% 50%;
+
+    --confidence-high: 142 71% 45%;
+    --confidence-medium: 38 92% 50%;
+    --confidence-low: 348 83% 58%;
+    --chat-user: 0 0% 15%;
+    --chat-ai: 0 0% 6%;
+    --glass: 0 0% 4% / 0.6;
   }
 }
 
@@ -94,198 +108,80 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Rajdhani', 'Inter', system-ui, -apple-system, sans-serif;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: 'Orbitron', monospace;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    /* The Dribbble shot uses a very dark, slightly textured or noisey background feel */
+    background-color: hsl(var(--background));
   }
 }
 
 @layer utilities {
-  .font-cyber {
-    font-family: 'Orbitron', monospace;
-  }
-
   .font-body {
-    font-family: 'Rajdhani', sans-serif;
+    font-family: 'Inter', sans-serif;
   }
 
   .text-gradient {
+    /* The amber gradient used in the design */
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(185 100% 50%), hsl(325 100% 50%));
+    background-image: linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%);
   }
 
-  .text-gradient-cyan {
+  .text-gradient-amber {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(90deg, hsl(185 100% 50%), hsl(200 100% 65%));
+    background-image: linear-gradient(90deg, #F59E0B 0%, #FBBF24 100%);
   }
 
-  .glow-cyan {
-    box-shadow: 0 0 10px hsl(185 100% 50% / 0.4), 0 0 40px hsl(185 100% 50% / 0.15), 0 0 80px hsl(185 100% 50% / 0.05);
+  /* Core UI Element: The Glass Card from the Dribbble shot */
+  .glass-card {
+    background: hsl(0 0% 100% / 0.03);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid hsl(0 0% 100% / 0.05);
+    box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.5);
   }
 
-  .glow-magenta {
-    box-shadow: 0 0 10px hsl(325 100% 50% / 0.4), 0 0 40px hsl(325 100% 50% / 0.15);
+  /* Clean interactive buttons */
+  .btn-dribbble {
+    padding: 12px 28px;
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: hsl(var(--foreground));
+    background: hsl(0 0% 100% / 0.05);
+    border: 1px solid hsl(0 0% 100% / 0.1);
+    border-radius: 9999px;
+    /* Pill shape */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
   }
 
-  .glow-text-cyan {
-    text-shadow: 0 0 10px hsl(185 100% 50% / 0.6), 0 0 30px hsl(185 100% 50% / 0.3);
+  .btn-dribbble:hover {
+    background: hsl(0 0% 100% / 0.1);
+    border-color: hsl(0 0% 100% / 0.2);
+    transform: translateY(-1px);
   }
 
-  .glow-text-magenta {
-    text-shadow: 0 0 10px hsl(325 100% 50% / 0.6), 0 0 30px hsl(325 100% 50% / 0.3);
+  .btn-primary {
+    padding: 12px 28px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: #000;
+    background: #FFFFFF;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.3s ease;
   }
 
-  .glass-panel {
-    background: hsl(var(--glass));
-    backdrop-filter: blur(16px);
-    border: 1px solid hsl(185 100% 50% / 0.1);
+  .btn-primary:hover {
+    background: #F4F4F5;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
   }
-
-  .cyber-border {
-    border: 1px solid hsl(185 100% 50% / 0.25);
-  }
-
-  .cyber-border-glow {
-    border: 1px solid hsl(185 100% 50% / 0.3);
-    box-shadow: inset 0 0 20px hsl(185 100% 50% / 0.05), 0 0 15px hsl(185 100% 50% / 0.1);
-  }
-
-  .animate-pulse-slow {
-    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-
-  .animate-glow-pulse {
-    animation: glow-pulse 2s ease-in-out infinite;
-  }
-}
-
-/* Animations */
-@keyframes float {
-
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
-
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-@keyframes glow-pulse {
-
-  0%,
-  100% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0.6;
-  }
-}
-
-@keyframes scan-line {
-  0% {
-    transform: translateY(-100%);
-  }
-
-  100% {
-    transform: translateY(100vh);
-  }
-}
-
-@keyframes grid-move {
-  0% {
-    background-position: 0 0;
-  }
-
-  100% {
-    background-position: 50px 50px;
-  }
-}
-
-/* Cyber grid background */
-.cyber-grid {
-  background-image:
-    linear-gradient(hsl(185 100% 50% / 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, hsl(185 100% 50% / 0.03) 1px, transparent 1px);
-  background-size: 50px 50px;
-  animation: grid-move 8s linear infinite;
-}
-
-/* Scan line overlay */
-.scan-lines::after {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  background: repeating-linear-gradient(0deg,
-      transparent,
-      transparent 2px,
-      hsl(185 100% 50% / 0.008) 2px,
-      hsl(185 100% 50% / 0.008) 4px);
-  z-index: 9999;
-}
-
-/* Neon button */
-.btn-neon {
-  position: relative;
-  padding: 12px 32px;
-  font-family: 'Orbitron', monospace;
-  font-weight: 600;
-  font-size: 0.875rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: hsl(185 100% 50%);
-  background: transparent;
-  border: 2px solid hsl(185 100% 50% / 0.5);
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.btn-neon:hover {
-  color: hsl(230 15% 5%);
-  background: hsl(185 100% 50%);
-  box-shadow: 0 0 20px hsl(185 100% 50% / 0.5), 0 0 60px hsl(185 100% 50% / 0.2);
-}
-
-.btn-neon-fill {
-  padding: 12px 32px;
-  font-family: 'Orbitron', monospace;
-  font-weight: 600;
-  font-size: 0.875rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: hsl(230 15% 5%);
-  background: linear-gradient(135deg, hsl(185 100% 50%), hsl(200 100% 60%));
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 15px hsl(185 100% 50% / 0.3);
-}
-
-.btn-neon-fill:hover {
-  box-shadow: 0 0 25px hsl(185 100% 50% / 0.5), 0 0 60px hsl(185 100% 50% / 0.2);
-  transform: translateY(-2px);
 }
 
 /* Scrollbar styling */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -293,10 +189,10 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(185 100% 50% / 0.3);
-  border-radius: 2px;
+  background: hsl(0 0% 100% / 0.1);
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(185 100% 50% / 0.5);
+  background: hsl(0 0% 100% / 0.2);
 }

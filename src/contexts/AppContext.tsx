@@ -181,12 +181,37 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const removeFile = useCallback((subjectId: string, fileId: string) => {
-    setState((s) => ({
-      ...s,
-      subjects: s.subjects.map((sub) =>
-        sub.id === subjectId ? { ...sub, files: sub.files.filter((f) => f.id !== fileId) } : sub
-      ),
-    }));
+    setState((s) => {
+      const subject = s.subjects.find((sub) => sub.id === subjectId);
+      const file = subject?.files.find((f) => f.id === fileId);
+
+      // Make API call to delete from backend Vector Store
+      if (file) {
+        const formData = new FormData();
+        formData.append("subject_id", subjectId);
+        formData.append("file_name", file.name);
+
+        fetch("http://localhost:8000/file", {
+          method: "DELETE",
+          body: formData,
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log("File deleted from backend:", data);
+          })
+          .catch((err) => {
+            console.error("Delete Error:", err);
+          });
+      }
+
+      // Optimistically remove from frontend state
+      return {
+        ...s,
+        subjects: s.subjects.map((sub) =>
+          sub.id === subjectId ? { ...sub, files: sub.files.filter((f) => f.id !== fileId) } : sub
+        ),
+      };
+    });
   }, []);
 
   const sendMessage = useCallback((subjectId: string, content: string) => {

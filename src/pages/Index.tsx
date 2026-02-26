@@ -1,14 +1,28 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { AppProvider, useApp } from "@/contexts/AppContext";
+import { SubjectSidebar } from "@/components/SubjectSidebar";
+import { ChatInterface } from "@/components/ChatInterface";
+import { FileManager } from "@/components/FileManager";
+import { StudyMode } from "@/components/StudyMode";
 
-const Index = () => {
+function AppContent() {
+  const { activeView } = useApp();
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="flex h-screen w-full bg-background">
+      <SubjectSidebar />
+      <main className="flex-1 flex flex-col min-w-0">
+        {activeView === "chat" && <ChatInterface />}
+        {activeView === "files" && <FileManager />}
+        {activeView === "study" && <StudyMode />}
+      </main>
     </div>
   );
-};
+}
+
+const Index = () => (
+  <AppProvider>
+    <AppContent />
+  </AppProvider>
+);
 
 export default Index;

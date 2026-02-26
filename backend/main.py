@@ -1,8 +1,11 @@
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional
+from dotenv import load_dotenv
 import os
 import shutil
+
+load_dotenv()
 
 from rag.processor import DocumentProcessor
 from rag.vector_store import VectorStoreManager
@@ -64,29 +67,27 @@ async def upload_files(
 @app.post("/chat")
 async def chat(
     subject_id: str = Form(...),
+    subject_name: str = Form("this subject"),
     message: str = Form(...)
 ):
     # 1. Semantic Search
     context_chunks = vector_store.search(subject_id, message)
     
-    # 2. Get Subject Name (could be passed in or stored)
-    # For now, we'll assume the client knows it or we'd fetch it from a DB
-    subject_name = f"Subject {subject_id}" 
-    
-    # 3. Generate grounded response
+    # 2. Generate grounded response
     response = llm.generate_response(message, context_chunks, subject_name)
     return response
 
 @app.post("/study")
 async def study(
     subject_id: str = Form(...),
+    subject_name: str = Form("this subject"),
     topic: str = Form(...)
 ):
     # 1. Semantic Search for the topic
     context_chunks = vector_store.search(subject_id, topic, n_results=10)
     
     # 2. Generate study material
-    response = llm.generate_study_material(topic, context_chunks, f"Subject {subject_id}")
+    response = llm.generate_study_material(topic, context_chunks, subject_name)
     return response
 
 if __name__ == "__main__":

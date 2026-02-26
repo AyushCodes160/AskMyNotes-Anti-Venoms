@@ -168,8 +168,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }));
 
     // Real API call to FastAPI
+    const subject = state.subjects.find((s) => s.id === subjectId);
     const formData = new FormData();
     formData.append("subject_id", subjectId);
+    formData.append("subject_name", subject?.name || "this subject");
     formData.append("message", content);
 
     fetch("http://localhost:8000/chat", {
@@ -216,8 +218,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const generateStudyMaterial = useCallback((subjectId: string, topic: string) => {
     setState((s) => ({ ...s, isLoading: true }));
 
+    const subject = state.subjects.find((s) => s.id === subjectId);
     const formData = new FormData();
     formData.append("subject_id", subjectId);
+    formData.append("subject_name", subject?.name || "this subject");
     formData.append("topic", topic);
 
     fetch("http://localhost:8000/study", {

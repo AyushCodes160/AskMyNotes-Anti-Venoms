@@ -17,7 +17,7 @@ class DocumentProcessor:
         return pages_content
 
     @staticmethod
-    def chunk_text(pages: List[Dict], chunk_size: int = 1000, overlap: int = 200) -> List[Dict]:
+    def chunk_text(pages: List[Dict], chunk_size: int = 500, overlap: int = 150) -> List[Dict]:
         chunks = []
         for page in pages:
             text = page["content"]

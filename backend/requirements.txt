@@ -3,3 +3,5 @@ uvicorn
 python-multipart
 pydantic-settings
 pdfplumber
+openai
+python-dotenv

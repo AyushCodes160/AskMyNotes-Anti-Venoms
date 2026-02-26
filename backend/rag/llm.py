@@ -28,7 +28,7 @@ class LLMManager:
                 model="meta-llama/llama-3.3-70b-instruct",
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.3,
-                max_tokens=1500,
+                max_tokens=2000,
             )
             return response.choices[0].message.content or ""
         except Exception as e:

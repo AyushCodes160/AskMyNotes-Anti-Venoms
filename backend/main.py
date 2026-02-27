@@ -92,6 +92,7 @@ async def chat(
     message: str = Form(...),
     conversation_history: str = Form("[]")
 ):
+    print(f"Message: {message}")
     import json as _json
     
     try:

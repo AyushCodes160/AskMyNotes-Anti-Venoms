@@ -36,7 +36,7 @@ class LLMManager:
             return ""
 
     def generate_response(self, query: str, context_chunks: List[Dict], subject_name: str, conversation_history: List[Dict] = None) -> Dict:
-        pring(context_chunks)
+        print(context_chunks)
         if not context_chunks:
             return {
                 "content": f"Not found in your notes for {subject_name}",

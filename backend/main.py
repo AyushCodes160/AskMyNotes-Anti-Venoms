@@ -32,6 +32,10 @@ processor = DocumentProcessor()
 UPLOAD_DIR = "uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy", "version": "1.0.0"}
+
 @app.post("/upload")
 async def upload_files(
     subject_id: str = Form(...),
@@ -115,17 +119,30 @@ async def study(
     response = llm.generate_study_material(topic, context_chunks, subject_name)
     return response
 
-dist_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "dist")
+# Get absolute path to the frontend assets
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+dist_dir = os.path.join(BASE_DIR, "dist")
+
 if os.path.exists(dist_dir):
+    print(f"Serving frontend from: {dist_dir}")
     app.mount("/assets", StaticFiles(directory=os.path.join(dist_dir, "assets")), name="assets")
     
     @app.get("/{full_path:path}")
     async def serve_frontend(full_path: str):
+        # Prevent accessing the API routes or health check
+        if full_path in ["health", "upload", "file", "chat", "study"]:
+            raise HTTPException(status_code=404)
+            
         file_path = os.path.join(dist_dir, full_path)
         if os.path.isfile(file_path):
             return FileResponse(file_path)
         return FileResponse(os.path.join(dist_dir, "index.html"))
+else:
+    print(f"Warning: dist directory not found at {dist_dir}. Frontend will not be served.")
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    # Render provides a PORT environment variable
+    port = int(os.environ.get("PORT", 8000))
+    print(f"Starting server on port {port}...")
+    uvicorn.run(app, host="0.0.0.0", port=port)
